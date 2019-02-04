@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/airavata-courses/200-ok#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0"
   }
 }
