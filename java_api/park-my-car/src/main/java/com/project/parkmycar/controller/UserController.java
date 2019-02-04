@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,6 +63,7 @@ public class UserController {
 	    return userRepository.save(user);
 	}
 	
+	@CrossOrigin
 	@RequestMapping("/login")
 	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m){
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -76,8 +78,14 @@ public class UserController {
 		
 	}
 	
+	@CrossOrigin
 	@RequestMapping("/register")
-	public void saveUser(@RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, @RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m){
+	public ResponseEntity<String> saveUser(@RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, @RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m){
+		
+		Optional<User> userlist = userRepository.findAllByUserName(username);
+		if(userlist.isPresent()) {
+			return new ResponseEntity<>("Username exists", HttpStatus.BAD_REQUEST);
+		}
 		User user = new User();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
@@ -88,6 +96,7 @@ public class UserController {
 		Long userId = generateUniqueId();
 		user.setUserId(userId);
 		userRepository.save(user);
+		return new ResponseEntity<>("Registration successful", HttpStatus.OK);
 	}
 	
 }
