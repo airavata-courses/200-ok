@@ -4,6 +4,7 @@ from bean.parking_garage_detail import ParkingGarageDetail
 from bean.parking_spot_reserve import ParkingSpotReserve
 import jsonpickle
 import uuid
+import datetime
 
 app = Flask(__name__)
 
@@ -15,7 +16,7 @@ app.config['MYSQL_DB'] = '200_ok'
 
 mysql = MySQL(app)
 
-@app.route('/getAllLocations', methods=['POST'])
+@app.route('/getAllLocations', methods=['GET'])
 def getAllLocations():
     try:
         cur = mysql.connection.cursor()
@@ -41,8 +42,9 @@ def checkAvailability():
     try:
         data = request.get_json()
         cur = mysql.connection.cursor()
+        date = str(datetime.date.today())
         sql = "SELECT parking_garage_id from parking_spot_detail where parking_garage_id = %s and date = %s and available='Y'"
-        cur.execute(sql,(data['parking_garage_id'],data['date']))
+        cur.execute(sql,(data['parking_garage_id'],date))
         res = cur.fetchall()
         cur.close()
         if len(res):
