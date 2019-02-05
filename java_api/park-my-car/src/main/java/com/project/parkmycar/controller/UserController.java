@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.project.parkmycar.model.ParkingGarage;
 import com.project.parkmycar.model.User;
+import com.project.parkmycar.repository.ParkingGarageRepository;
 import com.project.parkmycar.repository.UserRepository;
 
 @RestController
@@ -33,6 +35,9 @@ public class UserController {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	ParkingGarageRepository parkingGarageRepository;
 	
 	//@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -97,6 +102,13 @@ public class UserController {
 		user.setUserId(userId);
 		userRepository.save(user);
 		return new ResponseEntity<>("Registration successful", HttpStatus.OK);
+	}
+	
+	// Get All Parking Garages
+	@CrossOrigin
+	@RequestMapping("/getAllGarages")
+	public List<ParkingGarage> getAllGarages() {
+	    return parkingGarageRepository.findAll();
 	}
 	
 }
