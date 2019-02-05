@@ -8,13 +8,13 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      email: "",
+      username: "",
       password: ""
     };
   }
 
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
+    return this.state.username.length > 0 && this.state.password.length > 0;
   }
 
   handleChange = event => {
@@ -25,16 +25,18 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    var form_value_url = 'http://0.0.0.0:5000/getAllLocations';
+    var form_value_url = 'http://localhost:8080/api/login?&username='+this.state.username+'&password='+this.state.password;
     axios({
       method: 'get',
       url: form_value_url,
+      headers: {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"},
       crossdomain: true
       })
       .then(function (response) {
         //handle success
-        this.props.userHasAuthenticated(true);
-        this.props.history.push("/dashboard");
+        // this.props.userHasAuthenticated(true);
+        // this.props.history.push("/dashboard");
+        console.log(response);
       })
       .catch(function (response) {
         //handle error
@@ -46,12 +48,12 @@ export default class Login extends Component {
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bsSize="large">
+          <FormGroup controlId="username" bsSize="large">
             <ControlLabel>Email</ControlLabel>
             <FormControl
               autoFocus
               type="email"
-              value={this.state.email}
+              value={this.state.username}
               onChange={this.handleChange}
             />
           </FormGroup>

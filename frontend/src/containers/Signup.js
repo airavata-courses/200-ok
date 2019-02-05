@@ -17,14 +17,14 @@ export default class Signup extends Component {
       isLoading: false,
       firstname: "",
       lastname: "",
-      email: "",
+      username: "",
       password: "",
     };
   }
 
 
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
+    return this.state.username.length > 0 && this.state.password.length > 0;
   }
 
   handleChange = event => {
@@ -77,12 +77,12 @@ export default class Signup extends Component {
             type="text"
           />
         </FormGroup>
-        <FormGroup controlId="email" bsSize="large">
+        <FormGroup controlId="username" bsSize="large">
           <ControlLabel>Email</ControlLabel>
           <FormControl
             autoFocus
             type="email"
-            value={this.state.email}
+            value={this.state.username}
             onChange={this.handleChange}
           />
         </FormGroup>
