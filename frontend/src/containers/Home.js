@@ -14,20 +14,20 @@ export default class Home extends Component {
    };
  }
 
-onChange(){
-  {(e) => this.setState({selectedLocation: e.target.value, validationError: e.target.value === "" ? "You must select your location" : ""})}
-  if(this.state.selectedLocation != ''){
-    const newUser = {
-            userProfileId: this.state.firstName,
-            date : '2019-02-01'
-        }
-      axios.post('http://0.0.0.0:5000/checkAvailability', newUser)
-            .then(res => 
-                showAvailability = res.available
-              )
-            .catch(err => console.log(err));
-  }
-}
+// onChange(){
+//   {(e) => this.setState({selectedLocation: e.target.value, validationError: e.target.value === "" ? "You must select your location" : ""})}
+//   if(this.state.selectedLocation != ''){
+//     const newUser = {
+//             userProfileId: this.state.firstName,
+//             date : '2019-02-01'
+//         }
+//       axios.post('http://0.0.0.0:5000/checkAvailability', newUser)
+//             .then(res => 
+//                 showAvailability = res.available
+//               )
+//             .catch(err => console.log(err));
+//   }
+// }
  componentDidMount() {
   fetch("http://0.0.0.0:5000/getAllLocations")
   .then((response) => {
@@ -46,7 +46,7 @@ render() {
     <div className="lander">
     <div>
     <select value={this.state.selectedLocation} 
-    onChange={this.onC{(e) => this.setState({selectedLocation: e.target.value, validationError: e.target.value === "" ? "You must select your location" : ""})}hange}>
+    onChange={(e) => this.setState({selectedLocation: e.target.value, validationError: e.target.value === "" ? "You must select your location" : ""})}>
     {this.state.locations.map((location) => <option key={location.value} value={location.value}>{location.display}</option>)}
       </select>
       <div style={{color: 'red', marginTop: '5px'}}>
