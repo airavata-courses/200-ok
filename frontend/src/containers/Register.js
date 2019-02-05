@@ -12,7 +12,7 @@ export default class Login extends Component {
       lastname:'',
       username: '',
       password: ''
-    };S
+    };
   }
 
   validateForm() {
