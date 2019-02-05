@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+    <!-- Title Page-->
+    <title>Dashboard</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="css/font-face.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="css/theme.css" rel="stylesheet" media="all">
+
+    <style>
+        
+        #myNavbar{
+            background: #76b852; /* fallback for old browsers */
+            background: -webkit-linear-gradient(right, #76b852, #8DC26F);
+            background: -moz-linear-gradient(right, #76b852, #8DC26F);
+            background: -o-linear-gradient(right, #76b852, #8DC26F);
+            background: linear-gradient(to left, #76b852, #8DC26F);
+        }
+        .w3-bar .w3-button {
+            padding: 16px;
+            background: transparent;  
+        }
+    </style>
+</head>
+
+<body class="animsition">
+    <div class="page-wrapper">
+        <!-- Navbar (sit on top) -->
+        <div class="w3-top">
+                <div class="w3-bar w3-white w3-card" id="myNavbar">
+                <a href="Home.html" class="w3-bar-item w3-button w3-wide">PARK MY CAR</a>
+                <!-- Right-sided navbar links -->
+                <div class="w3-right w3-hide-small">
+                </div>
+                <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+            
+                <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+                    <i class="fa fa-bars"></i>
+                </a>
+                </div>
+            </div>
+          
+            <!-- Sidebar on small screens when clicking the menu icon -->
+            <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+                <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+            </nav>
+        <!-- MENU SIDEBAR-->
+        <aside class="menu-sidebar d-none d-lg-block" style="padding-top:4%;">
+            
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        <li>
+                                <a href="index.html">
+                                    <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                            </li>
+                        <li>
+                            <a href="form.html">
+                                <i class="far fa-check-square"></i>Add Parking Garage</a>
+                        </li>
+                        <li>
+                            <a onclick="logout()">
+                            <i class="fas fa-power-off"></i>Logout</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="overview-wrap">
+                                    <h2 class="title-1">overview</h2>
+                                    <!-- <button class="au-btn au-btn-icon au-btn--blue">
+                                        <i class="zmdi zmdi-plus"></i>Add Garage</button> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div id="garage_list" class="row m-t-25">
+                            <div id="garage_tile" class="col-sm-6 col-lg-3">
+                                <div class="overview-item overview-item--c4">
+                                    <div class="overview__inner">
+                                        <div class="overview-box clearfix">
+                                            <!-- <div class="icon">
+                                                <i class="zmdi zmdi-money"></i>
+                                            </div> -->
+                                            <div class="text">
+                                                <h2>Parking Garage 1</h2>
+                                                <span>120 spots</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MAIN CONTENT-->
+            <!-- END PAGE CONTAINER-->
+        </div>
+
+    </div>
+
+    <!-- Jquery JS-->
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="vendor/slick/slick.min.js">
+    </script>
+    <script src="vendor/wow/wow.min.js"></script>
+    <script src="vendor/animsition/animsition.min.js"></script>
+    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    </script>
+    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="vendor/counter-up/jquery.counterup.min.js">
+    </script>
+    <script src="vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="vendor/select2/select2.min.js">
+    </script>
+
+    <!-- Main JS-->
+    <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log(sessionStorage.getItem("user"));
+            var tile = document.getElementById("garage_list");
+            var locations = {"city1":"Bloomington","city2":"Minnesota"};
+            var index = 0;
+            locations.forEach(element => {
+                var div_col = document.createElement("div");
+                div_col.className = "col-sm-6 col-lg-3";
+                div_col.innerHTML = "<div class='overview-item overview-item--c4'><div class='overview__inner'><div class='overview-box clearfix'><div class='text'><h2>"+element.value+"</h2><span>"+element+"</span></div></div></div></div>";
+                // opt.value= index;
+                // opt.innerHTML = element.city; // whatever property it has
+                console.log(element);
+                // console.log(opt);
+                // then append it to the select element
+                tile.appendChild(div_col);
+                // index++;
+            })
+            // var api_url = 'http://localhost:8080/api/getAllGarages';
+            // $.ajax({ 
+            //     type:'GET',
+            //     dataType:'json',
+            //     url: api_url,
+            //     success: function(garages) {
+            //         console.log(garages);
+            //         garages.forEach(element => {
+            //             var opt = document.createElement("option");
+            //             opt.value= index;
+            //             opt.innerHTML = element.city; // whatever property it has
+            //             console.log(element);
+            //             console.log(opt);
+            //             // then append it to the select element
+            //             dropdown.appendChild(opt);
+            //             index++;
+            //         })
+            //     },
+            //     error: function (textStatus, errorThrown) {
+            //         console.log(textStatus);
+            //         console.log(errorThrown);
+            //     }
+            // });
+        });
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = "../../Home.html";
+        }
+    </script>
+
+</body>
+
+</html>
+<!-- end document-->
