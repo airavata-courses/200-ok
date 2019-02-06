@@ -112,21 +112,7 @@
                             </div>
                         </div>
                         <div id="garage_list" class="row m-t-25">
-                            <div id="garage_tile" class="col-sm-6 col-lg-3">
-                                <div class="overview-item overview-item--c4">
-                                    <div class="overview__inner">
-                                        <div class="overview-box clearfix">
-                                            <!-- <div class="icon">
-                                                <i class="zmdi zmdi-money"></i>
-                                            </div> -->
-                                            <div class="text">
-                                                <h2>Parking Garage 1</h2>
-                                                <span>120 spots</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!--  -->
                         </div>
                     </div>
                 </div>
@@ -164,43 +150,42 @@
         $(document).ready(function () {
             console.log(sessionStorage.getItem("user"));
             var tile = document.getElementById("garage_list");
-            var locations = {"city1":"Bloomington","city2":"Minnesota"};
-            var index = 0;
-            locations.forEach(element => {
-                var div_col = document.createElement("div");
-                div_col.className = "col-sm-6 col-lg-3";
-                div_col.innerHTML = "<div class='overview-item overview-item--c4'><div class='overview__inner'><div class='overview-box clearfix'><div class='text'><h2>"+element.value+"</h2><span>"+element+"</span></div></div></div></div>";
-                // opt.value= index;
-                // opt.innerHTML = element.city; // whatever property it has
-                console.log(element);
-                // console.log(opt);
-                // then append it to the select element
-                tile.appendChild(div_col);
-                // index++;
-            })
-            // var api_url = 'http://localhost:8080/api/getAllGarages';
-            // $.ajax({ 
-            //     type:'GET',
-            //     dataType:'json',
-            //     url: api_url,
-            //     success: function(garages) {
-            //         console.log(garages);
-            //         garages.forEach(element => {
-            //             var opt = document.createElement("option");
-            //             opt.value= index;
-            //             opt.innerHTML = element.city; // whatever property it has
-            //             console.log(element);
-            //             console.log(opt);
-            //             // then append it to the select element
-            //             dropdown.appendChild(opt);
-            //             index++;
-            //         })
-            //     },
-            //     error: function (textStatus, errorThrown) {
-            //         console.log(textStatus);
-            //         console.log(errorThrown);
-            //     }
-            // });
+            // var locations = {"city1":"Bloomington","city2":"Minnesota"};
+            // var index = 0;
+            // locations.forEach(element => {
+            //     var div_col = document.createElement("div");
+            //     div_col.className = "col-sm-6 col-lg-3";
+            //     div_col.innerHTML = "<div class='overview-item overview-item--c4'><div class='overview__inner'><div class='overview-box clearfix'><div class='text'><h2>"+element.value+"</h2><span>"+element+"</span></div></div></div></div>";
+            //     // opt.value= index;
+            //     // opt.innerHTML = element.city; // whatever property it has
+            //     console.log(element);
+            //     // console.log(opt);
+            //     // then append it to the select element
+            //     tile.appendChild(div_col);
+            //     // index++;
+            // })
+            var api_url = 'http://localhost:3003/get_all_garage/'+sessionStorage.getItem("user");
+            $.ajax({ 
+                type:'GET',
+                dataType:'json',
+                url: api_url,
+                success: function(garages) {
+                    console.log(garages);
+                    var index = 1;
+                    garages.forEach(element => {
+                        var div_col = document.createElement("div");
+                        div_col.className = "col-sm-6 col-lg-3";
+                        div_col.innerHTML = "<div class='overview-item overview-item--c4'><div class='overview__inner'><div class='overview-box clearfix'><div class='text'><h2>Parking Garage "+index+"</h2><span>"+element.numSpots+" spots</span></div></div></div></div>";
+                        console.log(element);
+                        tile.appendChild(div_col);
+                        index++;
+                    })
+                },
+                error: function (textStatus, errorThrown) {
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
         });
         function logout() {
             sessionStorage.clear();
