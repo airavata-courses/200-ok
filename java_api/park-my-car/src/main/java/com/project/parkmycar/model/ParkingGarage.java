@@ -51,7 +51,7 @@ public class ParkingGarage implements Serializable{
 	}
 
 	@Column(name = "parking_garage_id", nullable = false)
-	private Long parkingGarageId;
+	private String parkingGarageId;
 	
 	public Long getId() {
 		return id;
@@ -85,11 +85,11 @@ public class ParkingGarage implements Serializable{
 		this.pincode = pincode;
 	}
 
-	public Long getParkingGarageId() {
+	public String getParkingGarageId() {
 		return parkingGarageId;
 	}
 
-	public void setParkingGarageId(Long parkingGarageId) {
+	public void setParkingGarageId(String parkingGarageId) {
 		this.parkingGarageId = parkingGarageId;
 	}
 

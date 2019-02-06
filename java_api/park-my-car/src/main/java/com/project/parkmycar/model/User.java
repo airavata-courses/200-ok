@@ -33,7 +33,7 @@ public class User implements Serializable{
     private String userType;
 	
 	@Column(name = "user_profile_id", nullable = false)
-	private Long userId;
+	private String userId;
 	
 	public Long getId() {
 		return id;
@@ -83,11 +83,11 @@ public class User implements Serializable{
 		this.userType = userType;
 	}
 
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 }
