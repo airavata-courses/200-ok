@@ -101,7 +101,7 @@
         </div>
     </header>
     <!-- The Modal -->
-    <div id="myModal" class="modal">
+    <div id="myModal" class="modal" style="width:50%; position: absolute; top: 30%; left: 30%; margin-top: -5%; margin-left: -5%;">
 
       <!-- Modal content -->
       <div class="modal-content" style="color: black;">
@@ -109,16 +109,18 @@
         <div id="modal_address"></div>
         <form>
             <p id="address_name"></p>
-            <div>
-                <div class="row">
-                   <div class="col-*-6">Name: </div> 
-                   <div class="col-*-6"><input type="text" name="parking_username" id="parking_username"> </input></div>
-                </div>
-                <div class="row">
-                    <div class="col">Phone No: </div>
-                   <div class="col"><input type="text" name="phoneno" id="phoneno"></input></div>
-                </div>
+            
+            <div style="float:left;">
+                <label style="text-align: center;"for="reserve_username">Name: </label>
+                <input type="text" name="parking_username" id="parking_username"> </input>
             </div>
+            <br>
+            <br>
+            <div style="float:left;">
+                <label for="reserve_phoneno">Phone No: </label>
+                <input type="text" name="phoneno" id="phoneno"></input>
+            </div>
+            <br>
             <p><button id="reserveBtn" onclick="reserveSpot()" class="w3-button w3-block w3-green w3-round">Reserve Spot</button>
             <!-- Name:&nbsp;<input type="text" name="parking_username" id="parking_username"> </input><br> -->
             <!-- Phone No: <input type="text" name="phoneno" id="phoneno"></input><br> -->
@@ -170,11 +172,11 @@
                                 if (data.availability == 'Y'){
                                     document.getElementById("availability").innerHTML = 'Available';
                                     document.getElementById("availability").style.color = 'green';
-                                    $('#myBtn').show();
+                                    // $('#myBtn').show();
                                 }else{
                                     document.getElementById("availability").innerHTML = 'Not Available';
                                     document.getElementById("availability").style.color = 'red';
-                                    $('#myBtn').hide();
+                                    // $('#myBtn').hide();
                                 }
                             },
                             error: function (textStatus, errorThrown) {
@@ -210,7 +212,7 @@
                 return false; // prevent further bubbling of event
             }
             $(document).ready(function () {
-                $('#myBtn').hide();
+                // $('#myBtn').hide();
                 var dropdown = document.getElementById("location_dropdown");
                 var locations = {};
                 var api_url = 'http://localhost:8080/api/getAllGarages';
