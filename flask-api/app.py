@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, redirect
 from flask_mysqldb import MySQL
+from flask_cors import CORS,cross_origin
 from bean.parking_garage_detail import ParkingGarageDetail
 from bean.parking_spot_reserve import ParkingSpotReserve
 import jsonpickle
@@ -8,6 +9,8 @@ import datetime
 
 app = Flask(__name__)
 
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -17,6 +20,7 @@ app.config['MYSQL_DB'] = '200_ok'
 mysql = MySQL(app)
 
 @app.route('/getAllLocations', methods=['GET'])
+@cross_origin()
 def getAllLocations():
     try:
         cur = mysql.connection.cursor()
@@ -38,6 +42,7 @@ def getAllLocations():
         return jsonify(e), 500
 
 @app.route('/checkAvailability', methods=['POST'])
+@cross_origin()
 def checkAvailability():
     try:
         data = request.get_json()
@@ -48,8 +53,8 @@ def checkAvailability():
         res = cur.fetchall()
         cur.close()
         if len(res):
-            return jsonify({"Availability": "Available"}), 200
-        return jsonify({"Availability": "Not Available"}), 200
+            return jsonify({"availability": "Y"}), 200
+        return jsonify({"availability": "N"}), 200
     except Exception as e:
         return jsonify(e), 500
 
@@ -57,10 +62,10 @@ def checkAvailability():
 def reserveSpot():
     try:
         data = request.get_json()
-        print (data['date'])
+        date = str(datetime.date.today())
         cur = mysql.connection.cursor()
         sql = "SELECT parking_spot_detail.id,parking_spot_detail.parking_garage_id,parking_spot_detail.parking_spot_name from parking_spot_detail where parking_garage_id = %s and date = %s and available='Y'"
-        cur.execute(sql,(data['parking_garage_id'],data['date']))
+        cur.execute(sql,(data['parking_garage_id'],date))
         res = cur.fetchone()
         if res:
             spot_id = res[0]
@@ -70,9 +75,10 @@ def reserveSpot():
             parking_spot_reserve.order_status = 'RESERVED'
             parking_spot_reserve.parking_garage_id = res[1]
             parking_spot_reserve.parking_spot_name = res[2]
-            parking_spot_reserve.date = data['date']
+            parking_spot_reserve.date =date
             parking_spot_reserve.username = data['username']
             parking_spot_reserve.phoneno = data['phoneno']
+            parking_spot_reserve.availability = 'Y'
 
             sql = "UPDATE parking_spot_detail SET available='N' where id = %s"
             cur.execute(sql,(spot_id,))
@@ -86,7 +92,7 @@ def reserveSpot():
 
             return jsonpickle.encode(parking_spot_reserve, unpicklable=False), 200
         else :
-            return jsonify({"Availability": "Not Available"}), 200
+            return jsonify({"availability": "N"}), 200
     except Exception as e:
         return jsonify(e), 500
 

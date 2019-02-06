@@ -65,7 +65,7 @@
                     url: api_url,
                     success: function(user) {
                         window.sessionStorage.setItem("user",user.userId);
-                        window.location.href = "dashboard/dashui/index.html";
+                        window.location.href = "dashboard/index.html";
                     },
                     error: function (textStatus, errorThrown) {
                         console.log(textStatus);
@@ -83,7 +83,7 @@
                     success: function(user) {
                         console.log(user);
                         window.sessionStorage.setItem("user",user.userId);
-                        window.location.href = "dashboard/dashui/index.html";
+                        window.location.href = "dashboard/index.html";
                     },
                     error: function (textStatus, errorThrown) {
                         console.log(textStatus);

@@ -7,3 +7,4 @@ class ParkingSpotReserve:
         self.date=None
         self.username = None
         self.phoneno = None
+        self.availability = None
