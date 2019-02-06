@@ -180,12 +180,12 @@
                         if (data.availability == 'Y'){
                             document.getElementById("availability").innerHTML = 'Available';
                             document.getElementById("availability").style.color = 'green';
-                            // $('#myBtn').show();
+                            $('#myBtn').show();
                         }
                         else{
                             document.getElementById("availability").innerHTML = 'Not Available';
                             document.getElementById("availability").style.color = 'red';
-                            // $('#myBtn').hide();
+                            $('#myBtn').hide();
                         }
                     },
                     error: function (textStatus, errorThrown) {
@@ -226,7 +226,7 @@
             }
 
             $(document).ready(function () {
-                // $('#myBtn').hide();
+                $('#myBtn').hide();
                 var dropdown = document.getElementById("location_dropdown");
                 var locations = {};
                 var api_url = 'http://localhost:8080/api/getAllGarages';

@@ -126,25 +126,25 @@
                                             <h3 class="text-center title-2">Add Parking Garage</h3>
                                         </div>
                                         <hr>
-                                        <form action="" method="post" novalidate="novalidate">
+                                        <form method="post" novalidate="novalidate">
                                             <div class="form-group">
                                                 <label for="cc-payment" class="control-label mb-1">Total number of parking spots</label>
-                                                <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                                <input id="num_parking_spots" name="num_parking_spots" type="text" class="form-control" aria-required="true" aria-invalid="false">
                                             </div>
                                             <div class="form-group has-success">
                                                     <label for="street" class=" form-control-label">Address</label>
-                                                <input type="text" id="street" placeholder="Enter street name" class="form-control">
+                                                <input type="text" id="address" name="address" placeholder="Enter street name" class="form-control">
                                             </div>
                                             <div class="form-group">
                                                     <label for="city" class=" form-control-label">City</label>
-                                                    <input type="text" id="city" placeholder="Enter your city" class="form-control">
+                                                    <input type="text" id="city" name="city" placeholder="Enter your city" class="form-control">
                                             </div> 
                                                 <div class="form-group">
                                                         <label for="postal-code" class=" form-control-label">Postal Code</label>
-                                                        <input type="text" id="postal-code" placeholder="Postal Code" class="form-control">
+                                                        <input type="text" id="pincode" name="pincode" placeholder="Postal Code" class="form-control">
                                                 </div>
                                             <div>
-                                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                                <button id="payment-button" onclick="return formsubmit()" class="btn btn-lg btn-info btn-block">
                                                     <i class="fa fa-lock fa-lg"></i>&nbsp;
                                                     <span id="payment-button-amount">Add</span>
                                                     <span id="payment-button-sending" style="display:none;">Sending…</span>
@@ -191,7 +191,34 @@
         });
         function logout() {
             sessionStorage.clear();
-            window.location.href = "../../Home.html";
+            window.location.href = "../Home.html";
+        }
+
+        function formsubmit() {
+            var api_url = 'http://localhost:3003/add_parking';
+            var garage = {
+                user_profile_id: sessionStorage.getItem("user"),
+                num_parking_spots: $("#num_parking_spots").val(),
+                address: $("#address").val(),
+                city: $("#city").val(),
+                pincode:$("#pincode").val()
+            }
+            console.log("Generated garage: "+JSON.stringify(garage));
+            $.ajax({
+                type:'post',
+                dataType:'json',
+                url: api_url,
+                data: garage,
+                success: function(result) {
+                    console.log("Success: "+result);
+                    window.location.href = "index.html";
+                },
+                error: function (textStatus, errorThrown) {
+                    console.log("Error:"+textStatus);
+                    console.log("Error:"+errorThrown);
+                }
+            });
+            return false; // prevent further bubbling of event
         }
     </script>
 </body>
