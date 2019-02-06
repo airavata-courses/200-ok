@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,10 +71,12 @@ public class UserController {
 	
 	@CrossOrigin
 	@RequestMapping("/login")
-	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m){
+	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m, HttpSession session){
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 //		String hashedPassword = passwordEncoder.encode(password);
 		Optional<User> user = userRepository.findAllByUserName(username);
+		System.out.println("Hellllllllooooooo");
+		System.out.println(session.getAttribute("user"));
 		if(user.get().getUserName().equals(username) && passwordEncoder.matches(password, user.get().getPassword())) {
 			return new ResponseEntity<>(user.get(),HttpStatus.OK);
 		}
@@ -85,11 +88,11 @@ public class UserController {
 	
 	@CrossOrigin
 	@RequestMapping("/register")
-	public ResponseEntity<String> saveUser(@RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, @RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m){
+	public ResponseEntity<User> saveUser(@RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, @RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m){
 		
 		Optional<User> userlist = userRepository.findAllByUserName(username);
 		if(userlist.isPresent()) {
-			return new ResponseEntity<>("Username exists", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		User user = new User();
 		user.setFirstName(firstName);
@@ -98,10 +101,11 @@ public class UserController {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(password);
 		user.setPassword(hashedPassword);
-		Long userId = generateUniqueId();
+		String userId = generateUniqueId().toString();
 		user.setUserId(userId);
 		userRepository.save(user);
-		return new ResponseEntity<>("Registration successful", HttpStatus.OK);
+		Optional<User> user_list = userRepository.findAllByUserName(username);
+		return new ResponseEntity<>(user_list.get(), HttpStatus.OK);
 	}
 	
 	// Get All Parking Garages
