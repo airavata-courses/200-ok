@@ -33,6 +33,26 @@
 
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
+
+    <!-- Jquery JS-->
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="vendor/slick/slick.min.js"></script>
+    <script src="vendor/wow/wow.min.js"></script>
+    <script src="vendor/animsition/animsition.min.js"></script>
+    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="vendor/counter-up/jquery.counterup.min.js"></script>
+    <script src="vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="vendor/select2/select2.min.js"></script>
+
+    <!-- Main JS-->
+    <script src="js/main.js"></script>
     <style>
         #myNavbar{
             background: #76b852; /* fallback for old browsers */
@@ -139,10 +159,23 @@
                                                     <label for="city" class=" form-control-label">City</label>
                                                     <input type="text" id="city" name="city" placeholder="Enter your city" class="form-control">
                                             </div> 
-                                                <div class="form-group">
-                                                        <label for="postal-code" class=" form-control-label">Postal Code</label>
-                                                        <input type="text" id="pincode" name="pincode" placeholder="Postal Code" class="form-control">
+                                            <div class="form-group">
+                                                    <label for="postal-code" class=" form-control-label">Postal Code</label>
+                                                    <input type="text" id="pincode" name="pincode" placeholder="Postal Code" class="form-control">
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <label for="from-date" class=" form-control-label">From Date</label>
+                                                        <input type="text" id="from-date" name="date" placeholder="MM/DD/YYY" type="text" class="form-control">
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                        <label for="to-date" class=" form-control-label">To Date</label>
+                                                        <input type="text" id="to-date" name="date" placeholder="MM/DD/YYY" type="text" class="form-control">
+                                                    </div>
                                                 </div>
+                                            </div>
                                             <div>
                                                 <button id="payment-button" onclick="return formsubmit()" class="btn btn-lg btn-info btn-block">
                                                     <i class="fa fa-lock fa-lg"></i>&nbsp;
@@ -159,7 +192,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Jquery JS-->
@@ -185,10 +217,25 @@
 
     <!-- Main JS-->
     <script src="js/main.js"></script>
+
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
     <script>
         $(document).ready(function () {
             console.log(sessionStorage.getItem("user"));
+            var date_input=$('input[name="date"]'); //our date input has the name "date"
+            var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+            var options={
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            };
+            date_input.datepicker(options);
         });
+
         function logout() {
             sessionStorage.clear();
             window.location.href = "../Home.html";
