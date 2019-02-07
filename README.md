@@ -9,4 +9,4 @@ Once a driver is interested in parking his car, he finds available garages in hi
 
 ## Setup and Installation:
 
-https://github.com/airavata-courses/200-ok/wiki/Setup-and-Installation
+https://github.com/airavata-courses/200-ok/wiki/Assignment-1
