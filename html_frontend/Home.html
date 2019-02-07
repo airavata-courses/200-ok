@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Park My Car</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        
+        <style>
+            body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+            body {font-size: 16px;}
+            img {margin-bottom: -8px;}
+            .mySlides {display: none;}
+            .w3-bar .w3-button {
+                padding: 16px;
+            }
+            .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+            /* Modal Content/Box */
+            .modal-content {
+                background-color: #fefefe;
+                margin: 15% auto; /* 15% from the top and centered */
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%; /* Could be more or less, depending on screen size */
+            }
+            /* The Close Button */
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+            .close:hover, .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            .modal-header, h4, .close {
+    background-color: #5cb85c;
+    color:white !important;
+    text-align: center;
+    font-size: 30px;
+    }
+    .modal-footer {
+        background-color: #f9f9f9;
+    }
+
+        </style>
+    </head>
+    <body class="w3-content w3-black" style="max-width:1500px;">
+
+        <!-- Navbar (sit on top) -->
+        <div class="w3-top">
+            <div class="w3-bar w3-white w3-card" id="myNavbar">
+                <a href="#home" class="w3-bar-item w3-button w3-wide">PARK MY CAR</a>
+                <!-- Right-sided navbar links -->
+                <div class="w3-right w3-hide-small">
+                    <a href="Login.html" class="w3-bar-item w3-button"><i class="fa fa-user"></i> REGISTER YOUR GARAGE</a>
+                </div>
+                <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+                <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Sidebar on small screens when clicking the menu icon -->
+        <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+            <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+            <a href="Login.html" class="w3-bar-item w3-button"><i class="fa fa-user"></i> REGISTER YOUR GARAGE</a>
+        </nav>
+
+        <!-- Header with Slideshow -->
+        <header class="w3-display-container w3-center">
+            <button class="w3-button w3-block w3-green w3-hide-large w3-hide-medium" onclick="document.getElementById('download').style.display='block'">Download <i class="fa fa-android"></i> <i class="fa fa-apple"></i> <i class="fa fa-windows"></i></button>
+            <div class="mySlides w3-animate-opacity">
+                <img class="w3-image" src="Parking-lot.jpg" alt="Image 1" style="min-width:500px" width="1500" height="1000">
+                <div class="w3-display-left w3-padding w3-hide-small" style="width:40%">
+                    <div class="w3-black w3-opacity w3-hover-opacity-off w3-padding-large w3-round-large">
+                        <h1 class="w3-xlarge">Find the nearest available parking spot</h1>
+                        <!-- <hr class="w3-opacity"> -->
+                        <select id="location_dropdown" style="color:black">
+                            <option selected disabled>choose location</option>
+                        </select>
+                        <br>
+                        <div id="availability"></div><br>
+                        <p><button id="myBtn" class="w3-button w3-block w3-green w3-round">Reserve Spot<i class="fa fa-search"></i></button></p>
+                        <!-- Trigger/Open The Modal -->
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- The Modal -->
+        <div id="myModal" class="modal" style="width:50%; position: absolute; top: 30%; left: 30%; margin-top: -5%; margin-left: -5%;">
+
+            <!-- Modal content  -->
+            <div class="modal-content">
+                <div class="modal-header" style="padding:35px 50px;">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 id="modal_heading"><span class="glyphicon glyphicon-lock"></span> Reservation </h4>
+                </div>
+                <div class="modal-body" style="padding:40px 50px;">
+                    <div id="after_reservation">
+                        <!-- <label for="address" style="color:black"><span class="glyphicon glyphicon-map-marker"></span> Parking Location</label>
+                        <p id="address_name" style="color:black"></p>  -->
+                    </div>
+                    <!-- <p id="address_name"></p> -->
+                    <form role="form" id="contact_details_form">
+                        <div class="form-group">
+                            <label for="usrname" style="color:black"><span class="glyphicon glyphicon-user"></span> Name</label>
+                            <input type="text" class="form-control" id="parking_username" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="psw" style="color:black"><span class="glyphicon glyphicon-earphone"></span> Phone No</label>
+                            <input type="text" class="form-control" id="phoneno" placeholder="Enter your phone number">
+                        </div>
+                    </form>
+                    <button id="reserveBtn" onclick="reserveSpot()" class="btn btn-success btn-block"><span class="glyphicon glyphicon-ok"></span> Reserve Spot</button>
+                </div>
+              </div>
+
+        </div> 
+
+        <!-- Footer -->
+        <footer class="w3-container w3-padding-32 w3-light-grey w3-center w3-xlarge">
+            <div class="w3-section">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
+                <i class="fa fa-instagram w3-hover-opacity"></i>
+                <i class="fa fa-snapchat w3-hover-opacity"></i>
+                <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+                <i class="fa fa-twitter w3-hover-opacity"></i>
+                <i class="fa fa-linkedin w3-hover-opacity"></i>
+            </div>
+        </footer>
+
+        <script type="text/javascript">
+            // Slideshow
+            var slideIndex = 1;
+            showDivs(slideIndex);
+
+            function showDivs(n) {
+                var i;
+                var x = document.getElementsByClassName("mySlides");
+                if (n > x.length) {slideIndex = 1}{
+                    if (n < 1) {slideIndex = x.length}{
+                        for (i = 0; i < x.length; i++) {
+                            x[i].style.display = "none";  
+                        }
+                        x[slideIndex-1].style.display = "block"; 
+                    }
+                } 
+            }
+
+            $('#location_dropdown').change(function(){
+                res={'parking_garage_id' : document.getElementById("location_dropdown").value}
+                $.ajax('http://0.0.0.0:5000/checkAvailability', {
+                    type: 'post',
+                    data: JSON.stringify(res),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) { 
+                        if (data.availability == 'Y'){
+                            document.getElementById("availability").innerHTML = 'Available';
+                            document.getElementById("availability").style.color = 'green';
+                            $('#myBtn').show();
+                        }
+                        else{
+                            document.getElementById("availability").innerHTML = 'Not Available';
+                            document.getElementById("availability").style.color = 'red';
+                            $('#myBtn').hide();
+                        }
+                    },
+                    error: function (textStatus, errorThrown) {
+                        document.getElementById("availability").innerHTML = 'Not Available';
+                        document.getElementById("availability").style.color = 'red';
+                    }
+                });
+            });
+
+            function reserveSpot() {
+                
+                res={'parking_garage_id' : document.getElementById("location_dropdown").value , 'username' : document.getElementById("parking_username").value , 'phoneno' : document.getElementById("phoneno").value }
+                $.ajax('http://0.0.0.0:5000/reserveSpot', {
+                    type: 'post',
+                    data: JSON.stringify(res),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) { 
+                        if (data.availability == 'Y'){
+                            document.getElementById("modal_heading").innerHTML = "Reservation Details:";
+                            document.getElementById("contact_details_form").setAttribute("hidden", "true");
+                            document.getElementById("after_reservation").innerHTML = "<label for='parking_spot_name' style='color:black'><span class='glyphicon glyphicon-star-empty'></span> Parking Spot</label><p style='color:black'>"+ data['parking_spot_name'] +"</p> <label for='address' style='color:black'><span class='glyphicon glyphicon-map-marker'></span> Parking Location</label><p id='address_name' style='color:black'>"+$( "#location_dropdown option:selected" ).text()+"</p> ";
+                            document.getElementById("reserveBtn").innerHTML = "Reservation Complete!";
+                            document.getElementById("reserveBtn").disabled = true;
+                        }
+                        else{
+                            document.getElementById('myModal').style.display = "none";
+                            document.getElementById("availability").innerHTML = 'Not Available';
+                            document.getElementById("availability").style.color = 'red';
+                            $('#myBtn').toggle(false);
+                        }
+                    },
+                    error: function (textStatus, errorThrown) {
+                        document.getElementById("availability").innerHTML = 'Not Available';
+                        document.getElementById("availability").style.color = 'red';
+                        document.getElementById('myModal').style.display = "none";
+                    }
+                });
+                return false; // prevent further bubbling of event
+            }
+
+            $(document).ready(function () {
+                var dropdown = document.getElementById("location_dropdown");
+                var locations = {};
+                var api_url = 'http://localhost:8080/api/getAllGarages';
+                $.ajax({ 
+                    type:'GET',
+                    dataType:'json',
+                    url: api_url,
+                    success: function(garages) {
+                        console.log(garages);
+                        garages.forEach(element => {
+                            var opt = document.createElement("option");
+                            opt.value= element.parkingGarageId;
+                            opt.innerHTML = element.address + ', '+element.city+','+element.pincode; // whatever property it has
+                            console.log(element);
+                            console.log(opt);
+                            // then append it to the select element
+                            dropdown.appendChild(opt);
+                        })
+                    },
+                    error: function (textStatus, errorThrown) {
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
+            });
+
+            // $(document).ready(function(){
+            //     $("#myBtn").click(function(){
+            //         $("#myModal").modal();
+            //     });
+            // });
+            // Get the modal
+            var modal = document.getElementById('myModal');
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on the button, open the modal
+            btn.onclick = function() {
+                modal.style.display = "block";
+                document.getElementById('address_name').innerHTML = $( "#location_dropdown option:selected" ).text();
+                document.getElementById("reserveBtn").disabled = false;
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            } 
+        </script>
+    </body>
+</html>
