@@ -128,52 +128,64 @@ app.post("/add_parking",(req,res) => {
     const city = req.body.city
     const pincode = req.body.pincode
     const numSpots = req.body.num_parking_spots
-    const avail = "true"
+    const startDate = new Date(req.body.start_date)
+    const endDate = new Date(req.body.end_date)
+    const avail = "Y"
     // insert into table
     const connection = getConnection()
 
     // ToDo:
     // Use promises to move this to a function and use utility classes for CRUD
     // Update table: creation_data_time to creation_date_time
-    var queryString = "insert into parking_garage_detail \
+    // Implement triggers to reset availability of parking spots so that we need not have
+    // an individual row for each day for every parking spot
+
+    var currDate = new Date(startDate)
+    var queryString = ""
+    var availDate = ""
+    var spotName = ""
+
+    queryString = "insert into parking_garage_detail \
     (user_profile_id,creation_data_time,last_mod_date_time,parking_garage_id,\
-         address,city,pincode,num_of_spots) values (?,NOW(),NOW(),?,?,?,?,?)"
-    connection.query(queryString,[userId,garageId,address,city,pincode,numSpots],(err,result,fields) => {
-      if (err) {
-        console.log("Failed to add parking garage: "+ err)
-        res.sendStatus(500)
-        return
-      }
-      else{
-        console.log("Inserted new parking garage with id: " + result.insertId );
-        var spotName = ""
-        // Add different parking spots goiven by numSpots
-        for (let i = 0; i < numSpots; i++) {
-          spotName = "A"+i+1
-          queryString = "insert into parking_spot_detail \
-          (user_profile_id,creation_date_time,last_mod_date_time,date,parking_spot_name,\
-            parking_garage_id,available) values (?,NOW(),NOW(),CURDATE(),?,?,?)"
-          connection.query(queryString,[userId,spotName,garageId,avail],(err,result,fields) => {
-            if (err) {
-              console.log("Failed to add parking spot: "+ err)
-              res.sendStatus(500)
-            }
-            else{
-              console.log("Inserted new parking spot with id: " + result.insertId );
-              console.log("value of i:"+i)
-              // To Do:
-              // Implement a better way to end
-              if ( i == numSpots-1) {
-                console.log("Ending response")
-                res.json({success : "Updated Successfully", status : 200});
-              }
-            }
-          })      
+      address,city,pincode,num_of_spots) values (?,NOW(),NOW(),?,?,?,?,?)"
+      connection.query(queryString,[userId,garageId,address,city,pincode,numSpots],(err,result,fields) => {
+        if (err) {
+          console.log("Failed to add parking garage: "+ err)
+          res.sendStatus(500)
+          return
         }
-      }
-    })
+        else{
+          console.log("Inserted new parking garage with id: " + result.insertId );
 
+          // Don't keep the user waiting, while we add all the parking spots in the background
+          console.log("Ending response")
+          res.json({success : "Updated Successfully", status : 200});
+          
+          // Add a parking spot for each day
+          while (currDate.getDate() <= endDate.getDate()) {
+            spotName = ""
+            //availDate = "DATE("+currDate.toISOString()+")"
+            availDate = currDate.toISOString().split('T')[0]
+
+            // Add different parking spots given by numSpots
+            for (let i = 0; i < numSpots; i++) {
+              spotName = "A"+(i+1)
+              queryString = "insert into parking_spot_detail \
+              (user_profile_id,creation_date_time,last_mod_date_time,date,parking_spot_name,\
+                parking_garage_id,available) values (?,NOW(),NOW(),?,?,?,?)"
+              connection.query(queryString,[userId,availDate,spotName,garageId,avail],(err,result,fields) => {
+                if (err) {
+                  console.log("Failed to add parking spot: "+ err)
+                  res.sendStatus(500)
+                }
+                else{
+                  console.log("Inserted new parking spot with id: " + result.insertId );
+                }
+              })      
+            }
+            currDate.setDate( currDate.getDate() + 1 )
+          }
+        }
+      })      
     console.log("Finished adding")
-
-
 })

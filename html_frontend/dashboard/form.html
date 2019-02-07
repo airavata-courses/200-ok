@@ -168,11 +168,11 @@
                                                 <div class="row">
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                                         <label for="from-date" class=" form-control-label">From Date</label>
-                                                        <input type="text" id="from-date" name="date" placeholder="MM/DD/YYY" type="text" class="form-control">
+                                                        <input type="text" id="from-date" name="date" placeholder="YYYY/MM/DD" type="text" class="form-control">
                                                     </div>
                                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                                         <label for="to-date" class=" form-control-label">To Date</label>
-                                                        <input type="text" id="to-date" name="date" placeholder="MM/DD/YYY" type="text" class="form-control">
+                                                        <input type="text" id="to-date" name="date" placeholder="YYYY/MM/DD" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -228,7 +228,7 @@
             var date_input=$('input[name="date"]'); //our date input has the name "date"
             var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
             var options={
-                format: 'mm/dd/yyyy',
+                format: 'yyyy/mm/dd',
                 container: container,
                 todayHighlight: true,
                 autoclose: true,
@@ -248,7 +248,9 @@
                 num_parking_spots: $("#num_parking_spots").val(),
                 address: $("#address").val(),
                 city: $("#city").val(),
-                pincode:$("#pincode").val()
+                pincode:$("#pincode").val(),
+                start_date:$("#from-date").val(),
+                end_date:$("#to-date").val()
             }
             console.log("Generated garage: "+JSON.stringify(garage));
             $.ajax({
