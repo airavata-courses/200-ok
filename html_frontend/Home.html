@@ -196,37 +196,38 @@
             });
 
             function reserveSpot() {
-                document.getElementById("modal_heading").innerHTML = "Reservation Details:";
-                document.getElementById("contact_details_form").setAttribute("hidden", "true");
-                document.getElementById("after_reservation").innerHTML = "<label for='parking_spot_name' style='color:black'><span class='glyphicon glyphicon-star-empty'></span> Parking Spot</label><p style='color:black'>"+$( "#location_dropdown option:selected" ).text()+"</p> <label for='address' style='color:black'><span class='glyphicon glyphicon-map-marker'></span> Parking Location</label><p id='address_name' style='color:black'>"+$( "#location_dropdown option:selected" ).text()+"</p> ";
-                document.getElementById("reserveBtn").innerHTML = "Reservation Complete!";
-                // res={'parking_garage_id' : document.getElementById("location_dropdown").value , 'username' : 'user' , 'phoneno' : '8888888'}
-                // $.ajax('http://0.0.0.0:5000/reserveSpot', {
-                //     type: 'post',
-                //     data: JSON.stringify(res),
-                //     dataType: 'json',
-                //     contentType: 'application/json',
-                //     success: function(data) { 
-                //         if (data.availability == 'Y'){
-                //             alert(data.parking_spot_name)
-                //         }
-                //         else{
-                //             document.getElementById("availability").innerHTML = 'Not Available';
-                //             document.getElementById("availability").style.color = 'red';
-                //             $('#myBtn').toggle(false);
-                //         }
-                //     },
-                //     error: function (textStatus, errorThrown) {
-                //         document.getElementById("availability").innerHTML = 'Not Available';
-                //         document.getElementById("availability").style.color = 'red';
-                //         document.getElementById('myModal').style.display = "none";
-                //     }
-                // });
-                // return false; // prevent further bubbling of event
+                
+                res={'parking_garage_id' : document.getElementById("location_dropdown").value , 'username' : document.getElementById("parking_username").value , 'phoneno' : document.getElementById("phoneno").value }
+                $.ajax('http://0.0.0.0:5000/reserveSpot', {
+                    type: 'post',
+                    data: JSON.stringify(res),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) { 
+                        if (data.availability == 'Y'){
+                            document.getElementById("modal_heading").innerHTML = "Reservation Details:";
+                            document.getElementById("contact_details_form").setAttribute("hidden", "true");
+                            document.getElementById("after_reservation").innerHTML = "<label for='parking_spot_name' style='color:black'><span class='glyphicon glyphicon-star-empty'></span> Parking Spot</label><p style='color:black'>"+ data['parking_spot_name'] +"</p> <label for='address' style='color:black'><span class='glyphicon glyphicon-map-marker'></span> Parking Location</label><p id='address_name' style='color:black'>"+$( "#location_dropdown option:selected" ).text()+"</p> ";
+                            document.getElementById("reserveBtn").innerHTML = "Reservation Complete!";
+                            document.getElementById("reserveBtn").disabled = true;
+                        }
+                        else{
+                            document.getElementById('myModal').style.display = "none";
+                            document.getElementById("availability").innerHTML = 'Not Available';
+                            document.getElementById("availability").style.color = 'red';
+                            $('#myBtn').toggle(false);
+                        }
+                    },
+                    error: function (textStatus, errorThrown) {
+                        document.getElementById("availability").innerHTML = 'Not Available';
+                        document.getElementById("availability").style.color = 'red';
+                        document.getElementById('myModal').style.display = "none";
+                    }
+                });
+                return false; // prevent further bubbling of event
             }
 
             $(document).ready(function () {
-                $('#myBtn').hide();
                 var dropdown = document.getElementById("location_dropdown");
                 var locations = {};
                 var api_url = 'http://localhost:8080/api/getAllGarages';
@@ -271,6 +272,7 @@
             btn.onclick = function() {
                 modal.style.display = "block";
                 document.getElementById('address_name').innerHTML = $( "#location_dropdown option:selected" ).text();
+                document.getElementById("reserveBtn").disabled = false;
             }
 
             // When the user clicks on <span> (x), close the modal
