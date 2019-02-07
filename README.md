@@ -7,8 +7,6 @@ Park My Ride allows private garage owners to rent their parking garage making it
 
 Once a driver is interested in parking his car, he finds available garages in his location and makes a reservation.
 
-# 200-ok
+## Setup and Installation:
 
-## Assignment 1:
-
-https://github.com/airavata-courses/200-ok/wiki/Assignment-1
+https://github.com/airavata-courses/200-ok/wiki/Setup-and-Installation
