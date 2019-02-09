@@ -146,7 +146,7 @@
                                                         <h3 class="text-center title-2">Add Parking Garage</h3>
                                                     </div>
                                                     <hr>
-                                                    <form method="post" >
+                                                    <form id="garage-form" method="post" >
                                                         <div class="form-group">
                                                             <label for="cc-payment" class="control-label mb-1">Total number of parking spots</label>
                                                             <input id="num_parking_spots" name="num_parking_spots" type="text" class="form-control" aria-required="true" aria-invalid="false" required="true">
@@ -172,7 +172,7 @@
                                                             <div class="row">
                                                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                                                     <label for="from-date" class=" form-control-label">From Date</label>
-                                                                    <input type="text" id="from-date" name="date" placeholder="YYYY/MM/DD" type="text" class="form-control" required="true">
+                                                                    <input type="text" id="from-date" name="date" placeholder="YYYY/MM/DD" type="text" class="form-control" required="true" onchange="dateRange()">
                                                                     <span id="from_date_validation" class="error"></span>
                                                                 </div>
                                                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -232,22 +232,26 @@
                 <script>
                     $(document).ready(function () {
                         console.log(sessionStorage.getItem("user"));
-            var date_input=$('input[name="date"]'); //our date input has the name "date"
-            var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-            var options={
-                format: 'yyyy/mm/dd',
-                container: container,
-                todayHighlight: true,
-                autoclose: true,
-            };
-            date_input.datepicker(options);
-        });
+                        var date_input=$('input[name="date"]'); //our date input has the name "date"
+                        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+                        var options={
+                            format: 'yyyy/mm/dd',
+                            container: container,
+                            todayHighlight: true,
+                            autoclose: true,
+                            startDate: "0d"
+                        };
+                        date_input.datepicker(options);    
+                    });
+
+                    function dateRange(){
+                        $('input[id="to-date"]').datepicker('setStartDate', document.getElementById("from-date").value);
+                    }
 
                     function logout() {
                         sessionStorage.clear();
                         window.location.href = "../index.html";
                     }
-
 
                     function validateParkingForm(){
                         var valid = 1;
