@@ -1,31 +1,32 @@
-from flask import Flask, render_template, request, jsonify, redirect
-from flask_mysqldb import MySQL
+from flask import Flask, jsonify,request
 from flask_cors import CORS,cross_origin
+from flaskext.mysql import MySQL
 from bean.parking_garage_detail import ParkingGarageDetail
 from bean.parking_spot_reserve import ParkingSpotReserve
 import jsonpickle
 import uuid
 import datetime
 
-app = Flask(__name__)
 
+app = Flask(__name__)
+mysql = MySQL()
 app.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-app.config['MYSQL_HOST'] = '34.219.187.195'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'password'
-app.config['MYSQL_DB'] = '200_ok'
+# MySQL configurations
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'password'
+app.config['MYSQL_DATABASE_DB'] = '200_ok'
+app.config['MYSQL_DATABASE_HOST'] = '34.219.187.195'
 
-mysql = MySQL(app)
+mysql.init_app(app)
 
-@app.route('/getAllLocations', methods=['GET'])
-@cross_origin()
+@app.route('/getAllLocations')
 def getAllLocations():
+    cur = mysql.connect().cursor()
+    cur.execute('''SELECT parking_garage_id,address,city,pincode from 200_ok.parking_garage_detail''')
+    res = cur.fetchall()
     try:
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT parking_garage_id,address,city,pincode from parking_garage_detail")
-        res = cur.fetchall()
         locations = []
         cur.close()
         if len(res):
@@ -42,11 +43,10 @@ def getAllLocations():
         return jsonify(e), 500
 
 @app.route('/checkAvailability', methods=['POST'])
-@cross_origin()
 def checkAvailability():
     try:
         data = request.get_json()
-        cur = mysql.connection.cursor()
+        cur = mysql.connect().cursor()
         date = str(datetime.date.today())
         sql = "SELECT parking_garage_id from parking_spot_detail where parking_garage_id = %s and date = %s and available='Y'"
         cur.execute(sql,(data['parking_garage_id'],date))
@@ -63,10 +63,12 @@ def reserveSpot():
     try:
         data = request.get_json()
         date = str(datetime.date.today())
-        cur = mysql.connection.cursor()
+        cur = mysql.connect().cursor()
+        print(data)
         sql = "SELECT parking_spot_detail.id,parking_spot_detail.parking_garage_id,parking_spot_detail.parking_spot_name from parking_spot_detail where parking_garage_id = %s and date = %s and available='Y'"
         cur.execute(sql,(data['parking_garage_id'],date))
         res = cur.fetchone()
+        print (res)
         if res:
             spot_id = res[0]
             order_id = uuid.uuid1().node
@@ -87,7 +89,7 @@ def reserveSpot():
             VALUES (%s,'RESERVED',%s,%s,%s,%s,%s)"
           
             cur.execute(sql,(parking_spot_reserve.order_id,parking_spot_reserve.parking_garage_id,parking_spot_reserve.parking_spot_name,parking_spot_reserve.username,parking_spot_reserve.phoneno,parking_spot_reserve.date))       
-            mysql.connection.commit()
+            mysql.connect().commit()
             cur.close()
 
             return jsonpickle.encode(parking_spot_reserve, unpicklable=False), 200
@@ -95,6 +97,7 @@ def reserveSpot():
             return jsonify({"availability": "N"}), 200
     except Exception as e:
         return jsonify(e), 500
+
 
 if __name__ == '__main__':
     app.run(host = '0.0.0.0', port = 5000)
