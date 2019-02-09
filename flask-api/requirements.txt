@@ -1,4 +1,4 @@
-flask
-flask_mysqldb
+Flask
+flask-mysql
 jsonpickle
 flask_cors
