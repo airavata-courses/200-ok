@@ -165,7 +165,7 @@
                                                         <div class="form-group">
                                                             <label for="postal-code" class=" form-control-label">Postal Code</label>
                                                             <input type="text" id="pincode" name="pincode" placeholder="Postal Code" class="form-control" required="true">
-                                                            <span id="postal_validation" class="error"></span>
+                                                            <span id="pincode_validation" class="error"></span>
                                                         </div>
 
                                                         <div class="form-group">
@@ -190,6 +190,7 @@
                                                             </button>
                                                             <span id="firstname_validation" class="error"></span>
                                                         </div>
+                                                        <span id="add_parking_validation" class="error"></span>
                                                     </form>
                                                 </div>
                                             </div>
@@ -270,7 +271,6 @@
                         var from_date_validation = document.getElementById('from_date_validation');
                         var to_date_validation = document.getElementById('to_date_validation');
 
-
                         if (num_parking_spots.value === "") {
                             valid = 0;
                             parking_spot_validation.innerHTML = "Field Required";
@@ -291,12 +291,7 @@
                             address_validation.innerHTML = "Field Required";
                             address_validation.style.display = "block";
                             address_validation.parentNode.style.backgroundColor = "#FFDFDF";
-                        } else  if (!username_filter.test(address.value)) {
-                            valid = 0;
-                            address_validation.innerHTML = "Invalid Address";
-                            address_validation.style.display = "block";
-                            address_validation.parentNode.style.backgroundColor = "#FFDFDF";
-                        } else {
+                        }else {
                             address_validation.style.display = "none";
                             address_validation.parentNode.style.backgroundColor = "transparent";
                         }
@@ -322,12 +317,12 @@
                             pincode_validation.innerHTML = "Field Required";
                             pincode_validation.style.display = "block";
                             pincode_validation.parentNode.style.backgroundColor = "#FFDFDF";
-                        } else if (num_filter.test(pincode.value) && pincode.length !=6) {
-                            valid = 0;
-                            pincode_validation.innerHTML = "Pincode Invalid";
-                            pincode_validation.style.display = "block";
-                            pincode_validation.parentNode.style.backgroundColor = "#FFDFDF";
-                        } else {
+                        } else if (!num_filter.test(pincode.value)) {
+                            first_name_valid = 0;
+                            parking_spot_validation.innerHTML = "Invalid Number of Parking Spots";
+                            parking_spot_validation.style.display = "block";
+                            parking_spot_validation.parentNode.style.backgroundColor = "#FFDFDF";
+                        }  else {
                             pincode_validation.style.display = "none";
                             pincode_validation.parentNode.style.backgroundColor = "transparent";
                         }
@@ -352,16 +347,19 @@
                             to_date_validation.parentNode.style.backgroundColor = "transparent";
                         }
 
-                        if (!valid){
+
+                        if (valid==0){
                             return false;
                         }
                         return true;
-
                     }
 
 
                     function formsubmit() {
-                        if(validateParkingForm()){
+                        var valid = validateParkingForm();
+                        var add_parking_validation = document.getElementById('add_parking_validation');
+
+                        if(valid){
                             var api_url = 'http://localhost:3003/add_parking';
                             var garage = {
                                 user_profile_id: sessionStorage.getItem("user"),
@@ -383,6 +381,9 @@
                                     window.location.href = "dashboard.html";
                                 },
                                 error: function (textStatus, errorThrown) {
+                                    add_parking_validation.innerHTML = "Add garage Error";
+                                    add_parking_validation.style.display = "block";
+                                    add_parking_validation.parentNode.style.backgroundColor = "#FFDFDF";
                                     console.log("Error:"+textStatus);
                                     console.log("Error:"+errorThrown);
                                 }
