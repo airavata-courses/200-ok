@@ -58,16 +58,20 @@ def checkAvailability():
     except Exception as e:
         return jsonify(e), 500
 
+
 @app.route('/reserveSpot', methods=['POST'])
 def reserveSpot():
     try:
         data = request.get_json()
         date = str(datetime.date.today())
-        cur = mysql.connect().cursor()
+        con = mysql.connect()
+        cur = con.cursor()
         print(data)
         sql = "SELECT parking_spot_detail.id,parking_spot_detail.parking_garage_id,parking_spot_detail.parking_spot_name from parking_spot_detail where parking_garage_id = %s and date = %s and available='Y'"
         cur.execute(sql,(data['parking_garage_id'],date))
         res = cur.fetchone()
+        cur.close()
+        con.close()
         print (res)
         if res:
             spot_id = res[0]
@@ -81,17 +85,22 @@ def reserveSpot():
             parking_spot_reserve.username = data['username']
             parking_spot_reserve.phoneno = data['phoneno']
             parking_spot_reserve.availability = 'Y'
-
+            con = mysql.connect()
+            cur = con.cursor()
             sql = "UPDATE parking_spot_detail SET available='N' where id = %s"
             cur.execute(sql,(spot_id,))
-
+            con.commit()
+            cur.close()
+            con.close()
+            con = mysql.connect()
+            cur = con.cursor()
             sql = "INSERT INTO parking_spot_reserve_detail(order_id,order_status,parking_garage_id,parking_spot_name,user_name,phone_no,date) \
             VALUES (%s,'RESERVED',%s,%s,%s,%s,%s)"
           
             cur.execute(sql,(parking_spot_reserve.order_id,parking_spot_reserve.parking_garage_id,parking_spot_reserve.parking_spot_name,parking_spot_reserve.username,parking_spot_reserve.phoneno,parking_spot_reserve.date))       
-            mysql.connect().commit()
+            con.commit()
             cur.close()
-
+            con.close()
             return jsonpickle.encode(parking_spot_reserve, unpicklable=False), 200
         else :
             return jsonify({"availability": "N"}), 200
