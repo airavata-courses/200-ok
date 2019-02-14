@@ -1,0 +1,4 @@
+Flask
+flask-mysql
+jsonpickle
+flask_cors
