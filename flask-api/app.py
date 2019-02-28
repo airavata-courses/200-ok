@@ -48,12 +48,12 @@ def checkAvailability():
         data = request.get_json()
         cur = mysql.connect().cursor()
         date = str(datetime.date.today())
-        sql = "SELECT parking_garage_id from parking_spot_detail where parking_garage_id = %s and date = %s and available='Y'"
+        sql = "SELECT COUNT(parking_garage_id) from parking_spot_detail where parking_garage_id = %s and date = %s and available='Y'"
         cur.execute(sql,(data['parking_garage_id'],date))
-        res = cur.fetchall()
+        res = cur.fetchone()
         cur.close()
-        if len(res):
-            return jsonify({"availability": "Y"}), 200
+        if res[0]!=0:
+            return jsonify({"availability": "Y", "count":res[0]}), 200
         return jsonify({"availability": "N"}), 200
     except Exception as e:
         return jsonify(e), 500
