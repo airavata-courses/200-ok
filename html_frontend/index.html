@@ -182,7 +182,7 @@
                     contentType: 'application/json',
                     success: function(data) { 
                         if (data.availability == 'Y'){
-                            document.getElementById("availability").innerHTML = 'Available';
+                            document.getElementById("availability").innerHTML = 'Available <br/> Number of Spots Available: '+data.count;;
                             document.getElementById("availability").style.color = 'green';
                             $('#myBtn').show();
                         }
