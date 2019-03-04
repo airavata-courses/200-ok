@@ -37,8 +37,7 @@ app.get("/",(req,res) => {
 
 // Add new parking
 app.post("/add_parking",(req,res) => {
-    console.log(" Adding new parking: "+req.params)
-
+    console.log("Adding new parking: ")
     console.log(JSON.stringify(req.body));
 
     var options = {
@@ -61,8 +60,7 @@ app.post("/add_parking",(req,res) => {
 
 // Check Availability
 app.post("/checkAvailability",(req,res) => {
-    console.log(" Checking availability: "+req.params)
-
+    console.log("Checking availability: ")
     console.log(JSON.stringify(req.body));
 
     var options = {
@@ -81,3 +79,27 @@ app.post("/checkAvailability",(req,res) => {
 
     console.log("Finished adding")
 })
+
+// Reserve spot
+app.post("/reserveSpot",(req,res) => {
+    console.log(" Reserving spot: ")
+    console.log(JSON.stringify(req.body));
+
+    var options = {
+        uri: 'http://python.service.consul:5000/reserveSpot',
+        method: 'POST',
+        json: JSON.parse(JSON.stringify(req.body))
+    };
+
+    request(options, function (error, response, body) {
+        console.log("response "+ JSON.stringify(response))
+        console.log("body:"+JSON.stringify(body))
+        // Simply attach the respose got from the service
+        res.json(response.body)
+        res.end();
+    });
+
+    console.log("Finished adding")
+})
+
+
