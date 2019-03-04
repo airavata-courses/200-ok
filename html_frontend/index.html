@@ -263,7 +263,7 @@
                 var form_valid = document.getElementById('form_valid');
                 if(validateReservingForm()){
                     res={'parking_garage_id' : document.getElementById("location_dropdown").value , 'username' : document.getElementById("parking_username").value , 'phoneno' : document.getElementById("phoneno").value }
-                    $.ajax('http://149.165.169.68:3005/reserveSpot', {
+                    $.ajax('http://149.165.171.36:3005/reserveSpot', {
                         type: 'post',
                         data: JSON.stringify(res),
                         dataType: 'json',
