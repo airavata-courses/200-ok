@@ -175,7 +175,7 @@
 
             $('#location_dropdown').change(function(){
                 res={'parking_garage_id' : document.getElementById("location_dropdown").value}
-                $.ajax('http://149.165.169.68:5000/checkAvailability', {
+                $.ajax('http://149.165.171.36:3005/checkAvailability', {  
                     type: 'post',
                     data: JSON.stringify(res),
                     dataType: 'json',

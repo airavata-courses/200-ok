@@ -48,15 +48,35 @@ app.post("/add_parking",(req,res) => {
     };
 
     request(options, function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          console.log(body.id) // Print the shortened url.
-          res.json({success : "Updated Successfully", status : 200});
-          res.end;
-        }
-        else{
-            res.json({success : "Updated Successfully", status : 500});
-            res.end;
-        }
+        console.log("response "+ JSON.stringify(response))
+        console.log("body:"+JSON.stringify(body))
+        // Simply attach the respose got from the service
+        res.json(response.body)
+        res.end();
+    });
+
+    console.log("Finished adding")
+
+})
+
+// Check Availability
+app.post("/checkAvailability",(req,res) => {
+    console.log(" Checking availability: "+req.params)
+
+    console.log(JSON.stringify(req.body));
+
+    var options = {
+        uri: 'http://python.service.consul:5000/checkAvailability',
+        method: 'POST',
+        json: JSON.parse(JSON.stringify(req.body))
+    };
+
+    request(options, function (error, response, body) {
+        console.log("response "+ JSON.stringify(response))
+        console.log("body:"+JSON.stringify(body))
+        // Simply attach the respose got from the service
+        res.json(response.body)
+        res.end();
     });
 
     console.log("Finished adding")
