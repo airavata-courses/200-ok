@@ -155,7 +155,7 @@
                 var api_url = 'http://149.165.171.36:3005/register';
                 $.ajax({ 
                     type:'post',
-                    data: JSON.stringify(res),
+                    data: res,
                     dataType:'json',
                     url: api_url,
                     success: function(user) {
@@ -230,8 +230,8 @@
                 var res = {'username' : document.getElementById("username_login").value , 'password' : document.getElementById("password_login").value};
                 var api_url = 'http://149.165.171.36:3005/login';
                 $.ajax({ 
-                    type:'post',
-                    data: JSON.stringify(res),
+                    type:'POST',
+                    data: res,
                     dataType:'json',
                     url: api_url,
                     success: function(user) {

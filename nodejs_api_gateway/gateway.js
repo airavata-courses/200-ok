@@ -51,7 +51,7 @@ request(options, function (error, response, body) {
     }        
     res.end();
 });
-console.log("Finished adding")
+console.log("Finished get_all_garage")
 })
 
 // Get all garages
@@ -72,7 +72,7 @@ app.post("/getAllGarages",(req,res) => {
       }        
       res.end();
   });
-  console.log("Finished adding")
+  console.log("Finished getAllGarages")
   })
 
   // Register User
@@ -92,14 +92,17 @@ app.post("/register",(req,res) => {
   
   request(options, function (error, response, body) {
       if (!error && response != null) {
-          console.log("response "+ JSON.stringify(response))
-          console.log("body:"+JSON.stringify(body))
-          // Simply attach the respose got from the service
-          res.json(JSON.parse(body)) 
+        console.log(JSON.stringify(response));
+        if (response.statusCode == 200) {
+          res.json(JSON.parse(body));
+        }
+        else{
+            res.sendStatus(500);
+        }
       }        
       res.end();
   });
-  console.log("Finished adding")
+  console.log("Finished register")
   })
 
   // Login User
@@ -117,14 +120,17 @@ app.post("/login",(req,res) => {
   
   request(options, function (error, response, body) {
       if (!error && response != null) {
-          console.log("response "+ JSON.stringify(response))
-          console.log("body:"+JSON.stringify(body))
-          // Simply attach the respose got from the service
-          res.json(JSON.parse(body)) 
+          console.log(JSON.stringify(response));
+          if (response.statusCode == 200) {
+            res.json(JSON.parse(body));
+          }
+          else{
+              res.sendStatus(500);
+          }
       }        
       res.end();
   });
-  console.log("Finished adding")
+  console.log("Finished login")
   })
 
 // Post Requests
@@ -150,7 +156,7 @@ app.post("/add_parking",(req,res) => {
         }
     });
 
-    console.log("Finished adding")
+    console.log("Finished add_parking")
 
 })
 
