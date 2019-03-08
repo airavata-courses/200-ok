@@ -151,9 +151,15 @@
 
         function register() {
             if(validateRegisterForm()){
+<<<<<<< HEAD
                 var api_url = 'http://149.165.171.36:8090/api/register?firstname='+document.getElementById("firstname").value+'&lastname='+document.getElementById("lastname").value+'&username='+document.getElementById("username_register").value+'&password='+document.getElementById("password_register").value;
+=======
+                var res = {'firstname' : document.getElementById("firstname").value , 'lastname' : document.getElementById("lastname").value, 'username' : document.getElementById("username_register").value , 'password' : document.getElementById("password_register").value};
+                var api_url = 'http://149.165.171.36:3005/register';
+>>>>>>> api-gateway
                 $.ajax({ 
-                    type:'GET',
+                    type:'post',
+                    data: res,
                     dataType:'json',
                     url: api_url,
                     success: function(user) {
@@ -225,9 +231,15 @@
 
         function login() {
             if(validateLoginForm()){
+<<<<<<< HEAD
                 var api_url = 'http://149.165.171.36:8090/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value;
+=======
+                var res = {'username' : document.getElementById("username_login").value , 'password' : document.getElementById("password_login").value};
+                var api_url = 'http://149.165.171.36:3005/login';
+>>>>>>> api-gateway
                 $.ajax({ 
-                    type:'GET',
+                    type:'POST',
+                    data: res,
                     dataType:'json',
                     url: api_url,
                     success: function(user) {
