@@ -34,7 +34,7 @@ app.get("/",(req,res) => {
 
 // Post on API but GET on the service
 // Get all garages for a user
-app.post("/get_all_garage/",(req,res) => {
+app.post("/get_all_garage",(req,res) => {
   console.log("Fetching garages for user with id: " + req.body.user_profile_id)
 
   var options = {
@@ -53,6 +53,27 @@ request(options, function (error, response, body) {
 });
 console.log("Finished adding")
 })
+
+// Get all garages
+app.post("/getAllGarages",(req,res) => {
+    console.log("Fetching garages")
+  
+    var options = {
+      uri: 'http://java.service.consul:8090/api/getAllGarages',
+      method: 'GET'
+  };
+  
+  request(options, function (error, response, body) {
+      if (!error && response != null) {
+          console.log("response "+ JSON.stringify(response))
+          console.log("body:"+JSON.stringify(body))
+          // Simply attach the respose got from the service
+          res.json(JSON.parse(body)) 
+      }        
+      res.end();
+  });
+  console.log("Finished adding")
+  })
 
 // Post Requests
 
