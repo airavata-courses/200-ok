@@ -49,9 +49,9 @@ request(options, function (error, response, body) {
         // Simply attach the respose got from the service
         res.json(JSON.parse(body)) 
     }        
+    res.end();
 });
 console.log("Finished get_all_garage")
-res.end();
 })
 
 // Get all garages
@@ -70,9 +70,9 @@ app.post("/getAllGarages",(req,res) => {
           // Simply attach the respose got from the service
           res.json(JSON.parse(body)) 
       }        
-    });
-    console.log("Finished getAllGarages")
-    res.end();
+      res.end();
+  });
+  console.log("Finished getAllGarages")
   })
 
   // Register User
@@ -100,9 +100,9 @@ app.post("/register",(req,res) => {
             res.sendStatus(500);
         }
       }        
-    });
-    console.log("Finished register")
-    res.end();
+      res.end();
+  });
+  console.log("Finished register")
   })
 
   // Login User
@@ -153,10 +153,10 @@ app.post("/add_parking",(req,res) => {
             // Simply attach the respose got from the service
             res.json(response.body)
         }
+        res.end();
     });
 
     console.log("Finished add_parking")
-    res.end();
 
 })
 
@@ -178,11 +178,10 @@ app.post("/checkAvailability",(req,res) => {
             // Simply attach the respose got from the service
             res.json(response.body)
         }
-        
+        res.end();        
     });
-    
+
     console.log("Finished checkAvailability")
-    res.end();
 })
 
 // Reserve spot
@@ -203,10 +202,10 @@ app.post("/reserveSpot",(req,res) => {
             // Simply attach the respose got from the service
             res.json(response.body)
         }
+        res.end();
     });
-    
+
     console.log("Finished reserveSpot")
-    res.end();
 })
 
 
