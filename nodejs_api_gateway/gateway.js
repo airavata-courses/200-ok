@@ -43,10 +43,12 @@ app.post("/get_all_garage/",(req,res) => {
 };
 
 request(options, function (error, response, body) {
-    console.log("response "+ JSON.stringify(response))
-    console.log("body:"+JSON.stringify(body))
-    // Simply attach the respose got from the service
-    res.json(response.body)
+    if (!error && response != null) {
+        console.log("response "+ JSON.stringify(response))
+        console.log("body:"+JSON.stringify(body))
+        // Simply attach the respose got from the service
+        res.json(JSON.parse(body)) 
+    }        
     res.end();
 });
 console.log("Finished adding")
@@ -66,11 +68,13 @@ app.post("/add_parking",(req,res) => {
     };
 
     request(options, function (error, response, body) {
-        console.log("response "+ JSON.stringify(response))
-        console.log("body:"+JSON.stringify(body))
-        // Simply attach the respose got from the service
-        res.json(JSON.parse(body))
-        res.end();
+        if (!error && response != null) {
+            console.log("response "+ JSON.stringify(response))
+            console.log("body:"+JSON.stringify(body))
+            // Simply attach the respose got from the service
+            res.json(JSON.parse(body))
+            res.end();
+        }
     });
 
     console.log("Finished adding")
@@ -89,11 +93,14 @@ app.post("/checkAvailability",(req,res) => {
     };
 
     request(options, function (error, response, body) {
-        console.log("response "+ JSON.stringify(response))
-        console.log("body:"+JSON.stringify(body))
-        // Simply attach the respose got from the service
-        res.json(response.body)
-        res.end();
+        if (!error && response != null) {
+            console.log("response "+ JSON.stringify(response))
+            console.log("body:"+JSON.stringify(body))
+            // Simply attach the respose got from the service
+            res.json(response.body)
+            res.end();
+        }
+            
     });
 
     console.log("Finished checkAvailability")
@@ -111,11 +118,13 @@ app.post("/reserveSpot",(req,res) => {
     };
 
     request(options, function (error, response, body) {
-        console.log("response "+ JSON.stringify(response))
-        console.log("body:"+JSON.stringify(body))
-        // Simply attach the respose got from the service
-        res.json(response.body)
-        res.end();
+        if (!error && response != null) {
+            console.log("response "+ JSON.stringify(response))
+            console.log("body:"+JSON.stringify(body))
+            // Simply attach the respose got from the service
+            res.json(response.body)
+            res.end();
+        }
     });
 
     console.log("Finished reserveSpot")
