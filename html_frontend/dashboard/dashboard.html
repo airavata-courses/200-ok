@@ -164,15 +164,9 @@
             //     tile.appendChild(div_col);
             //     // index++;
             // })
-<<<<<<< HEAD
-            var api_url = 'http://149.165.171.36:3003/get_all_garage/'+sessionStorage.getItem("user");
-            $.ajax({ 
-                type:'GET',
-=======
             var api_url = 'http://149.165.171.36:3005/get_all_garage';
             $.ajax({
                 type:'POST',
->>>>>>> api-gateway
                 dataType:'json',
                 data: {
                     user_profile_id: sessionStorage.getItem("user")

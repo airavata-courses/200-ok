@@ -175,11 +175,7 @@
 
             $('#location_dropdown').change(function(){
                 res={'parking_garage_id' : document.getElementById("location_dropdown").value}
-<<<<<<< HEAD
-                $.ajax('http://149.165.171.36:5000/checkAvailability', {
-=======
                 $.ajax('http://149.165.171.36:3005/checkAvailability', {  
->>>>>>> api-gateway
                     type: 'post',
                     data: JSON.stringify(res),
                     dataType: 'json',
@@ -267,11 +263,7 @@
                 var form_valid = document.getElementById('form_valid');
                 if(validateReservingForm()){
                     res={'parking_garage_id' : document.getElementById("location_dropdown").value , 'username' : document.getElementById("parking_username").value , 'phoneno' : document.getElementById("phoneno").value }
-<<<<<<< HEAD
-                    $.ajax('http://149.165.171.36:5000/reserveSpot', {
-=======
                     $.ajax('http://149.165.171.36:3005/reserveSpot', {
->>>>>>> api-gateway
                         type: 'post',
                         data: JSON.stringify(res),
                         dataType: 'json',
@@ -311,11 +303,7 @@
         $(document).ready(function () {
             var dropdown = document.getElementById("location_dropdown");
             var locations = {};
-<<<<<<< HEAD
-            var api_url = 'http://149.165.171.36:8090/api/getAllGarages';
-=======
             var api_url = 'http://149.165.171.36:3005/getAllGarages';
->>>>>>> api-gateway
             $.ajax({ 
                 type:'POST',
                 dataType:'json',
