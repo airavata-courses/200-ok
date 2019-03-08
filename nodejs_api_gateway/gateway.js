@@ -75,6 +75,58 @@ app.post("/getAllGarages",(req,res) => {
   console.log("Finished adding")
   })
 
+  // Register User
+app.post("/register",(req,res) => {
+    console.log("Registering User")
+  
+    var tempUrl = 'http://java.service.consul:8090/api/register?'
+    tempUrl += '&firstname='+ req.body.firstname
+    tempUrl += '&lastname='+ req.body.lastname
+    tempUrl += '&username='+ req.body.username
+    tempUrl += '&password='+ req.body.password
+
+    var options = {
+      uri: tempUrl,
+      method: 'GET'
+  };
+  
+  request(options, function (error, response, body) {
+      if (!error && response != null) {
+          console.log("response "+ JSON.stringify(response))
+          console.log("body:"+JSON.stringify(body))
+          // Simply attach the respose got from the service
+          res.json(JSON.parse(body)) 
+      }        
+      res.end();
+  });
+  console.log("Finished adding")
+  })
+
+  // Login User
+app.post("/login",(req,res) => {
+    console.log("Logging in User")
+
+    var tempUrl = 'http://java.service.consul:8090/api/login?'
+    tempUrl += '&username='+ req.body.username
+    tempUrl += '&password='+ req.body.password
+  
+    var options = {
+      uri: tempUrl,
+      method: 'GET'
+  };
+  
+  request(options, function (error, response, body) {
+      if (!error && response != null) {
+          console.log("response "+ JSON.stringify(response))
+          console.log("body:"+JSON.stringify(body))
+          // Simply attach the respose got from the service
+          res.json(JSON.parse(body)) 
+      }        
+      res.end();
+  });
+  console.log("Finished adding")
+  })
+
 // Post Requests
 
 // Add new parking

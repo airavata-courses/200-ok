@@ -303,9 +303,9 @@
         $(document).ready(function () {
             var dropdown = document.getElementById("location_dropdown");
             var locations = {};
-            var api_url = 'http://149.165.171.36:5005/getAllGarages';
+            var api_url = 'http://149.165.171.36:3005/getAllGarages';
             $.ajax({ 
-                type:'GET',
+                type:'POST',
                 dataType:'json',
                 url: api_url,
                 success: function(garages) {
