@@ -32,6 +32,25 @@ app.get("/",(req,res) => {
 })
 
 
+// Post on API but GET on the service
+// Get all garages for a user
+app.post("/get_all_garage/",(req,res) => {
+  console.log("Fetching garages for user with id: " + req.body.user_profile_id)
+
+  var options = {
+    uri: 'http://nodejs.service.consul:3003/get_all_garage/'+req.body.user_profile_id,
+    method: 'GET'
+};
+
+request(options, function (error, response, body) {
+    console.log("response "+ JSON.stringify(response))
+    console.log("body:"+JSON.stringify(body))
+    // Simply attach the respose got from the service
+    res.json(response.body)
+    res.end();
+});
+console.log("Finished adding")
+})
 
 // Post Requests
 
@@ -50,7 +69,7 @@ app.post("/add_parking",(req,res) => {
         console.log("response "+ JSON.stringify(response))
         console.log("body:"+JSON.stringify(body))
         // Simply attach the respose got from the service
-        res.json(response.body)
+        res.json(JSON.parse(body))
         res.end();
     });
 
@@ -77,12 +96,12 @@ app.post("/checkAvailability",(req,res) => {
         res.end();
     });
 
-    console.log("Finished adding")
+    console.log("Finished checkAvailability")
 })
 
 // Reserve spot
 app.post("/reserveSpot",(req,res) => {
-    console.log(" Reserving spot: ")
+    console.log("Reserving spot: ")
     console.log(JSON.stringify(req.body));
 
     var options = {
@@ -99,7 +118,7 @@ app.post("/reserveSpot",(req,res) => {
         res.end();
     });
 
-    console.log("Finished adding")
+    console.log("Finished reserveSpot")
 })
 
 
