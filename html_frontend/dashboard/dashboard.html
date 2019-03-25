@@ -164,10 +164,13 @@
             //     tile.appendChild(div_col);
             //     // index++;
             // })
-            var api_url = 'http://localhost:3003/get_all_garage/'+sessionStorage.getItem("user");
-            $.ajax({ 
-                type:'GET',
+            var api_url = 'http://149.165.171.36:3005/get_all_garage';
+            $.ajax({
+                type:'POST',
                 dataType:'json',
+                data: {
+                    user_profile_id: sessionStorage.getItem("user")
+                },
                 url: api_url,
                 success: function(garages) {
                     console.log(garages);

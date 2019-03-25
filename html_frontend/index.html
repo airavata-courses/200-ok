@@ -175,14 +175,14 @@
 
             $('#location_dropdown').change(function(){
                 res={'parking_garage_id' : document.getElementById("location_dropdown").value}
-                $.ajax('http://0.0.0.0:5000/checkAvailability', {
+                $.ajax('http://149.165.171.36:3005/checkAvailability', {  
                     type: 'post',
                     data: JSON.stringify(res),
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) { 
                         if (data.availability == 'Y'){
-                            document.getElementById("availability").innerHTML = 'Available';
+                            document.getElementById("availability").innerHTML = 'Available <br/> Number of Spots Available: '+data.count;;
                             document.getElementById("availability").style.color = 'green';
                             $('#myBtn').show();
                         }
@@ -263,7 +263,7 @@
                 var form_valid = document.getElementById('form_valid');
                 if(validateReservingForm()){
                     res={'parking_garage_id' : document.getElementById("location_dropdown").value , 'username' : document.getElementById("parking_username").value , 'phoneno' : document.getElementById("phoneno").value }
-                    $.ajax('http://0.0.0.0:5000/reserveSpot', {
+                    $.ajax('http://149.165.171.36:3005/reserveSpot', {
                         type: 'post',
                         data: JSON.stringify(res),
                         dataType: 'json',
@@ -303,9 +303,9 @@
         $(document).ready(function () {
             var dropdown = document.getElementById("location_dropdown");
             var locations = {};
-            var api_url = 'http://localhost:8080/api/getAllGarages';
+            var api_url = 'http://149.165.171.36:3005/getAllGarages';
             $.ajax({ 
-                type:'GET',
+                type:'POST',
                 dataType:'json',
                 url: api_url,
                 success: function(garages) {

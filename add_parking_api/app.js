@@ -162,7 +162,7 @@ app.post("/add_parking",(req,res) => {
           res.json({success : "Updated Successfully", status : 200});
           
           // Add a parking spot for each day
-          while (currDate.getDate() <= endDate.getDate()) {
+          while (+currDate <= +endDate) {
             spotName = ""
             //availDate = "DATE("+currDate.toISOString()+")"
             availDate = currDate.toISOString().split('T')[0]
