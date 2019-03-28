@@ -26,9 +26,9 @@ app.use(function(req, res, next) {
 // function to establish connection with the database, udpdate fields as required
 function getConnection() {
   return mysql.createConnection({
-    host: '34.219.187.195',
+    host: '149.165.169.93',
     user: 'root',
-    password: 'password',
+    password: 'password200ok@123',
     database: '200_ok'
   })
 }
