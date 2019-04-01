@@ -8,5 +8,7 @@ ADD . /app
 RUN cd /app; \
     npm install
 
+EXPOSE 3003
+
 # Run our app.
 CMD ["node", "/app/app.js"]
