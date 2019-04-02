@@ -1,0 +1,7 @@
+cd dir/200-ok/flask-api/
+git pull
+git checkout develop
+docker build -t flask-service .
+docker login
+docker tag flask-service 200okdocker/flask-service
+docker push 200okdocker/flask-service
