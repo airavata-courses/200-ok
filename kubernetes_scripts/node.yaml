@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-microservice
+spec:
+ type: LoadBalancer
+ ports:
+  - targetPort: 3003
+    port: 3003
+    nodePort: 30005
+ selector:
+  app: node-ms
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-microservice
+spec:
+  selector:
+    matchLabels:
+      app: node-ms
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: node-ms
+    spec:
+      containers:
+      - name: node-ms
+        imagePullPolicy: Always
+        image: 200okdocker/add-parking
+        ports:
+        - containerPort: 3003
