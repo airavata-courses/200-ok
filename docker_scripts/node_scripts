@@ -1,0 +1,7 @@
+cd dir/200-ok/add_parking_api/
+git pull
+git checkout develop
+docker build -t add-parking .
+docker login
+docker tag add-parking 200okdocker/add-parking
+docker push 200okdocker/add-parking
