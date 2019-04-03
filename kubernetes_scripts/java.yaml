@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-microservice
+spec:
+ type: LoadBalancer
+ ports:
+  - targetPort: 8080
+    port: 8080
+    nodePort: 30008
+ selector:
+  app: java-ms
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-microservice
+spec:
+  selector:
+    matchLabels:
+      app: java-ms
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: java-ms
+    spec:
+      containers:
+      - name: java-ms
+        imagePullPolicy: Always
+        image: 200okdocker/park-my-car
+        ports:
+        - containerPort: 8080
