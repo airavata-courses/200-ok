@@ -33,7 +33,9 @@ function getConnection() {
   })
 }
 
-// Get a uinque user ID. Now now we return a 22 digit id using package 
+var connection = getConnection()
+
+// Get a uinque user ID. Now now we return a 22 digit id using package
 // 'short-unique-id' : https://www.npmjs.com/package/short-uuid
 // We can change this in future
 function getUniqueID() {
@@ -41,21 +43,18 @@ function getUniqueID() {
 }
 
 function addNewGarage(params) {
-  
+
 }
 
 function addNewParkingSpot(params) {
-  
+
 }
 
 // get all user Garages for the given user
 function getAllGarage(userId){
   const queryString = "Select * from parking_garage_detail where user_profile_id =?"
-
   var records = []
 
-
-  const connection = getConnection()
   connection.query(queryString,[userId],(err,rows,fiels) => {
 
     if (err) {
@@ -94,7 +93,6 @@ app.get("/get_all_garage/:id",(req,res) => {
   const userId = req.params.id
   const queryString = "Select * from parking_garage_detail where user_profile_id =?"
   var records = []
-  const connection = getConnection()
   connection.query(queryString,[userId],(err,rows,fiels) => {
 
     if (err) {
@@ -121,7 +119,7 @@ app.get("/get_all_garage/:id",(req,res) => {
 app.post("/add_parking",(req,res) => {
     console.log(" Adding new parking: "+req.params)
 
-    // parse data from the post request 
+    // parse data from the post request
     const garageId = getUniqueID()
     const userId = req.body.user_profile_id
     const address = req.body.address
@@ -132,7 +130,6 @@ app.post("/add_parking",(req,res) => {
     const endDate = new Date(req.body.end_date)
     const avail = "Y"
     // insert into table
-    const connection = getConnection()
 
     // ToDo:
     // Use promises to move this to a function and use utility classes for CRUD
@@ -160,7 +157,7 @@ app.post("/add_parking",(req,res) => {
           // Don't keep the user waiting, while we add all the parking spots in the background
           console.log("Ending response")
           res.json({success : "Updated Successfully", status : 200});
-          
+
           // Add a parking spot for each day
           while (+currDate <= +endDate) {
             spotName = ""
@@ -181,11 +178,21 @@ app.post("/add_parking",(req,res) => {
                 else{
                   console.log("Inserted new parking spot with id: " + result.insertId );
                 }
-              })      
+              })
             }
             currDate.setDate( currDate.getDate() + 1 )
           }
         }
-      })      
+      })
     console.log("Finished adding")
 })
+
+process.on('exit', function(code) {
+  connection.end()
+  return console.log("Exiting");
+});
+process.on('SIGTERM', () => {
+  console.info('SIGTERM signal received.');
+  connection.end()
+  console.log("mysql connection closed");
+});
