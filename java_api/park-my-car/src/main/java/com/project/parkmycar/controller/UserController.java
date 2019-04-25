@@ -73,7 +73,7 @@ public class UserController {
 	@CrossOrigin
 	@RequestMapping("/login")
 	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("social") String social, @RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, HttpServletRequest request, Model m, HttpSession session){
-		if(!password.matches("scx")) {
+		if(!social.matches("yes")) {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 //			String hashedPassword = passwordEncoder.encode(password);
 			Optional<User> user = userRepository.findAllByUserName(username);
