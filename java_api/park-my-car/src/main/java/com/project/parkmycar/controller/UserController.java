@@ -108,6 +108,35 @@ public class UserController {
 		return new ResponseEntity<>(user_list.get(), HttpStatus.OK);
 	}
 	
+	@CrossOrigin
+	@RequestMapping("/googlelogin")
+	public ResponseEntity<User> googlelogin(@RequestParam("username") String username, @RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, HttpServletRequest request, Model m, HttpSession session){
+		
+		Optional<User> userlist = userRepository.findAllByUserName(username);
+		if(userlist.isPresent()) {
+			Optional<User> user = userRepository.findAllByUserName(username);
+
+			System.out.println(session.getAttribute("user"));
+			if(user.get().getUserName().equals(username)) {
+				return new ResponseEntity<>(user.get(),HttpStatus.OK);
+			}
+		}
+		User user = new User();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setUserName(username);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String userId = generateUniqueId().toString();
+		user.setUserId(userId);
+		String hashedPassword = passwordEncoder.encode(userId);
+		user.setPassword(hashedPassword);
+		userRepository.save(user);
+		Optional<User> user_list = userRepository.findAllByUserName(username);
+		return new ResponseEntity<>(user_list.get(), HttpStatus.OK);
+		
+	
+	}
+	
 	// Get All Parking Garages
 	@CrossOrigin
 	@RequestMapping("/getAllGarages")
