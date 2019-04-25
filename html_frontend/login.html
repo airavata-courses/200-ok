@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="google-signin-client_id" content="554516618793-ouig52su8hcgl1fk6j7qbi954umeid2o.apps.googleusercontent.com">
     <link rel="stylesheet" type="text/css" href="Login.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="Login.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
     <title>Park My Car - Login</title>
     <style>
     .w3-bar .w3-button {
@@ -36,10 +39,10 @@
     <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
         <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
     </nav>
-
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
     <!-- Register/Login forms-->
     <div class="login-page">
-        <div class="form">
+        <!-- <div class="form">
             <form id="register-form" class="register-form">
                 <input id="firstname" type="text" placeholder="first name"/>
                 <span id="firstname_validation" class="error"></span>
@@ -60,8 +63,11 @@
                 <span id="password_login_validation" class="error"></span>
                 <button onclick="return login()">login</button>
                 <span id="login_form_validation" class="error"></span>
+
+                
                 <p class="message">Not registered? <a href="#">Create an account</a></p>
-            </form>
+            </form> -->
+            
         </div>
     </div>
     <script>
