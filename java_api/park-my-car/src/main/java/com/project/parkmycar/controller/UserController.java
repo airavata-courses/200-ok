@@ -79,6 +79,7 @@ public class UserController {
 			Optional<User> user = userRepository.findAllByUserName(username);
 			System.out.println("Hellllllllooooooo");
 			System.out.println(session.getAttribute("user"));
+			System.out.println(social);
 			if(user.get().getUserName().equals(username) && passwordEncoder.matches(password, user.get().getPassword())) {
 				return new ResponseEntity<>(user.get(),HttpStatus.OK);
 			}
