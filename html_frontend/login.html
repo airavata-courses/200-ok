@@ -162,7 +162,7 @@
 
         function register() {
             if(validateRegisterForm()){
-                var api_url = 'http://149.165.171.50:30008/api/register?firstname='+document.getElementById("firstname").value+'&lastname='+document.getElementById("lastname").value+'&username='+document.getElementById("username_register").value+'&password='+document.getElementById("password_register").value;
+                var api_url = 'http://149.165.170.90:30008/api/register?firstname='+document.getElementById("firstname").value+'&lastname='+document.getElementById("lastname").value+'&username='+document.getElementById("username_register").value+'&password='+document.getElementById("password_register").value;
                 $.ajax({
                     type:'get',
                     dataType:'json',
@@ -240,7 +240,7 @@
                 var social = "no";
                 var first = "v";
                 var last = "p";
-                var api_url = 'http://149.165.171.50:30008/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value+'&social='+social+'&firstname='+first+'&lastname='+last;
+                var api_url = 'http://149.165.170.90:30008/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value+'&social='+social+'&firstname='+first+'&lastname='+last;
                 $.ajax({
                     type:'get',
                     dataType:'json',
@@ -279,7 +279,7 @@
             var password = "scx";
 
 
-            var api_url = 'http://149.165.171.50:30008/api/login?username='+username+'&password='+password+'&social='+social+'&firstname='+firstname+'&lastname='+lastname;
+            var api_url = 'http://149.165.170.90:30008/api/login?username='+username+'&password='+password+'&social='+social+'&firstname='+firstname+'&lastname='+lastname;
                 $.ajax({
                     type:'get',
                     dataType:'json',
