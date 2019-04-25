@@ -30,6 +30,7 @@ import com.project.parkmycar.model.User;
 import com.project.parkmycar.repository.ParkingGarageRepository;
 import com.project.parkmycar.repository.UserRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -71,19 +72,44 @@ public class UserController {
 	
 	@CrossOrigin
 	@RequestMapping("/login")
-	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m, HttpSession session){
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//		String hashedPassword = passwordEncoder.encode(password);
-		Optional<User> user = userRepository.findAllByUserName(username);
-		System.out.println("Hellllllllooooooo");
-		System.out.println(session.getAttribute("user"));
-		if(user.get().getUserName().equals(username) && passwordEncoder.matches(password, user.get().getPassword())) {
-			return new ResponseEntity<>(user.get(),HttpStatus.OK);
+	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("social") String social, @RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, HttpServletRequest request, Model m, HttpSession session){
+		if(!social.matches("yes")) {
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//			String hashedPassword = passwordEncoder.encode(password);
+			Optional<User> user = userRepository.findAllByUserName(username);
+			System.out.println("Hellllllllooooooo");
+//			System.out.println(session.getAttribute("user"));
+			System.out.println(social);
+			System.out.println(password);
+			if(user.get().getUserName().equals(username) && passwordEncoder.matches(password, user.get().getPassword())) {
+				return new ResponseEntity<>(user.get(),HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		}
 		else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			Optional<User> userlist = userRepository.findAllByUserName(username);
+			if(userlist.isPresent()) {
+				Optional<User> user = userRepository.findAllByUserName(username);
+				if(user.get().getUserName().equals(username)) {
+					return new ResponseEntity<>(user.get(),HttpStatus.OK);
+				}
+			}
+			User new_user = new User();
+			new_user.setFirstName(firstName);
+			new_user.setLastName(lastName);
+			new_user.setUserName(username);
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String userId = generateUniqueId().toString();
+			new_user.setUserId(userId);
+			String hashedPassword = passwordEncoder.encode(userId);
+			new_user.setPassword(hashedPassword);
+			userRepository.save(new_user);
+			Optional<User> user_list = userRepository.findAllByUserName(username);
+			return new ResponseEntity<>(user_list.get(), HttpStatus.OK);
 		}
-		
+//		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@CrossOrigin
@@ -106,6 +132,35 @@ public class UserController {
 		userRepository.save(user);
 		Optional<User> user_list = userRepository.findAllByUserName(username);
 		return new ResponseEntity<>(user_list.get(), HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@RequestMapping("/googlelogin")
+	public ResponseEntity<User> googlelogin(@RequestParam("username") String username, @RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, HttpServletRequest request, Model m, HttpSession session){
+		
+		Optional<User> userlist = userRepository.findAllByUserName(username);
+		if(userlist.isPresent()) {
+			Optional<User> user = userRepository.findAllByUserName(username);
+
+			System.out.println(session.getAttribute("user"));
+			if(user.get().getUserName().equals(username)) {
+				return new ResponseEntity<>(user.get(),HttpStatus.OK);
+			}
+		}
+		User user = new User();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setUserName(username);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String userId = generateUniqueId().toString();
+		user.setUserId(userId);
+		String hashedPassword = passwordEncoder.encode(userId);
+		user.setPassword(hashedPassword);
+		userRepository.save(user);
+		Optional<User> user_list = userRepository.findAllByUserName(username);
+		return new ResponseEntity<>(user_list.get(), HttpStatus.OK);
+		
+	
 	}
 	
 	// Get All Parking Garages

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="google-signin-client_id" content="554516618793-ifeit253j8af1tk01nllnjg59lrrl5cu.apps.googleusercontent.com">
     <link rel="stylesheet" type="text/css" href="Login.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="Login.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
     <title>Park My Car - Login</title>
     <style>
     .w3-bar .w3-button {
@@ -36,10 +39,13 @@
     <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
         <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
     </nav>
-
+    
     <!-- Register/Login forms-->
     <div class="login-page">
+        
         <div class="form">
+                <div class="g-signin2" data-onsuccess="onSignIn" style="padding-left:25%;"></div>
+                <p style="color:#4CAF50"><b>OR</b></p>
             <form id="register-form" class="register-form">
                 <input id="firstname" type="text" placeholder="first name"/>
                 <span id="firstname_validation" class="error"></span>
@@ -61,10 +67,15 @@
                 <button onclick="return login()">login</button>
                 <span id="login_form_validation" class="error"></span>
                 <p class="message">Not registered? <a href="#">Create an account</a></p>
+
+                
             </form>
+            
         </div>
     </div>
     <script>
+        
+
         function validateRegisterForm(){  
             var valid = 1;
             var firstname = document.getElementById('firstname');
@@ -222,10 +233,14 @@
             
         
         }
-
+        // http://149.165.171.50:30008/api/login?username=v@p.com&password=koochbhi&social=yes&firstname=v&lastname=p
+        // http://149.165.171.50:30008/api/login?username=vanessapinto257@gmail.com&password=zcx&social=yes&firstname=Vanessa&lastname=Pinto
         function login() {
             if(validateLoginForm()){
-                var api_url = 'http://149.165.171.50:30008/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value;
+                var social = "no";
+                var first = "v";
+                var last = "p";
+                var api_url = 'http://149.165.171.50:30008/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value+'&social='+social+'&firstname='+first+'&lastname='+last;
                 $.ajax({
                     type:'get',
                     dataType:'json',
@@ -247,6 +262,42 @@
                 // prevent further bubbling of event
             }
             return false;
+        }
+
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            console.log('Given Name: ' + profile.getGivenName());
+            console.log('Family Name: ' + profile.getFamilyName());
+            var username = profile.getEmail();
+            var firstname = profile.getGivenName();
+            var lastname = profile.getFamilyName();
+            var social = "yes";
+            var password = "scx";
+
+
+            var api_url = 'http://149.165.171.50:30008/api/login?username='+username+'&password='+password+'&social='+social+'&firstname='+firstname+'&lastname='+lastname;
+                $.ajax({
+                    type:'get',
+                    dataType:'json',
+                    url: api_url,
+                    success: function(user) {
+                        console.log(user);
+                        window.sessionStorage.setItem("user",user.userId);
+                        window.location.href = "dashboard/dashboard.html";
+                    },
+                    error: function (textStatus, errorThrown) {
+                        var login_form_validation = document.getElementById("login_form_validation");
+                        login_form_validation.innerHTML = "Login Error";
+                        login_form_validation.style.display = "block";
+                        login_form_validation.parentNode.style.backgroundColor = "#FFDFDF";
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
         }
     </script>
 </body>
