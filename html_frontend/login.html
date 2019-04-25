@@ -230,10 +230,14 @@
             
         
         }
-
+        // http://149.165.171.50:30008/api/login?username=v@p.com&password=koochbhi&social=yes&firstname=v&lastname=p
+        // http://149.165.171.50:30008/api/login?username=vanessapinto257@gmail.com&password=zcx&social=yes&firstname=Vanessa&lastname=Pinto
         function login() {
             if(validateLoginForm()){
-                var api_url = 'http://149.165.171.50:30008/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value+'&social=&firstname=&lastname=';
+                var social = "no";
+                var first = "v";
+                var last = "p";
+                var api_url = 'http://149.165.171.50:30008/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value+'&social='+social+'&firstname='+first+'&lastname='+last;
                 $.ajax({
                     type:'get',
                     dataType:'json',
@@ -268,9 +272,11 @@
             var username = profile.getEmail();
             var firstname = profile.getGivenName();
             var lastname = profile.getFamilyName();
+            var social = "yes";
+            var password = "scx";
 
 
-            var api_url = 'http://149.165.171.50:30008/api/login?username='+username+'&password=zcx&social=yes&firstname='+firstname+'&lastname='+lastname;
+            var api_url = 'http://149.165.171.50:30008/api/login?username='+username+'&password='+password+'&social='+social+'&firstname='+firstname+'&lastname='+lastname;
                 $.ajax({
                     type:'get',
                     dataType:'json',
