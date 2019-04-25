@@ -70,7 +70,7 @@ public class UserController {
 	    return userRepository.save(user);
 	}
 	
-	@CrossOrigin
+	@CrossOrigin(origins = "http://js-169-93.jetstream-cloud.org")
 	@RequestMapping("/login")
 	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m, HttpSession session){
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -87,7 +87,7 @@ public class UserController {
 		
 	}
 	
-	@CrossOrigin
+	@CrossOrigin(origins = "http://js-169-93.jetstream-cloud.org")
 	@RequestMapping("/register")
 	public ResponseEntity<User> saveUser(@RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, @RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m){
 		
@@ -109,7 +109,7 @@ public class UserController {
 		return new ResponseEntity<>(user_list.get(), HttpStatus.OK);
 	}
 	
-	@CrossOrigin
+	@CrossOrigin(origins = "http://js-169-93.jetstream-cloud.org")
 	@RequestMapping("/googlelogin")
 	public ResponseEntity<User> googlelogin(@RequestParam("username") String username, @RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, HttpServletRequest request, Model m, HttpSession session){
 		
