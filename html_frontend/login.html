@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="google-signin-client_id" content="554516618793-ouig52su8hcgl1fk6j7qbi954umeid2o.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="554516618793-ifeit253j8af1tk01nllnjg59lrrl5cu.apps.googleusercontent.com">
     <link rel="stylesheet" type="text/css" href="Login.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="Login.js"></script>
@@ -39,10 +39,10 @@
     <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
         <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
     </nav>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    
     <!-- Register/Login forms-->
     <div class="login-page">
-        <!-- <div class="form">
+        <div class="form">
             <form id="register-form" class="register-form">
                 <input id="firstname" type="text" placeholder="first name"/>
                 <span id="firstname_validation" class="error"></span>
@@ -63,14 +63,22 @@
                 <span id="password_login_validation" class="error"></span>
                 <button onclick="return login()">login</button>
                 <span id="login_form_validation" class="error"></span>
-
-                
                 <p class="message">Not registered? <a href="#">Create an account</a></p>
-            </form> -->
+
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </form>
             
         </div>
     </div>
     <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }
+
         function validateRegisterForm(){  
             var valid = 1;
             var firstname = document.getElementById('firstname');
@@ -157,7 +165,7 @@
 
         function register() {
             if(validateRegisterForm()){
-                var api_url = 'http://149.165.171.50:30008/api/register?firstname='+document.getElementById("firstname").value+'&lastname='+document.getElementById("lastname").value+'&username='+document.getElementById("username_register").value+'&password='+document.getElementById("password_register").value;
+                var api_url = 'http://149.165.169.93:8080/api/register?firstname='+document.getElementById("firstname").value+'&lastname='+document.getElementById("lastname").value+'&username='+document.getElementById("username_register").value+'&password='+document.getElementById("password_register").value;
                 $.ajax({
                     type:'get',
                     dataType:'json',
@@ -231,7 +239,7 @@
 
         function login() {
             if(validateLoginForm()){
-                var api_url = 'http://149.165.171.50:30008/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value;
+                var api_url = 'http://149.165.169.93:8080/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value;
                 $.ajax({
                     type:'get',
                     dataType:'json',
