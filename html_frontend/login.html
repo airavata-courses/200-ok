@@ -233,7 +233,7 @@
 
         function login() {
             if(validateLoginForm()){
-                var api_url = 'http://149.165.171.50:30008/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value;
+                var api_url = 'http://149.165.171.50:30008/api/login?username='+document.getElementById("username_login").value+'&password='+document.getElementById("password_login").value+"&social=&firstname=&lastname";
                 $.ajax({
                     type:'get',
                     dataType:'json',

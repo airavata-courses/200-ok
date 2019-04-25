@@ -72,19 +72,21 @@ public class UserController {
 	
 	@CrossOrigin
 	@RequestMapping("/login")
-	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request, Model m, HttpSession session){
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//		String hashedPassword = passwordEncoder.encode(password);
-		Optional<User> user = userRepository.findAllByUserName(username);
-		System.out.println("Hellllllllooooooo");
-		System.out.println(session.getAttribute("user"));
-		if(user.get().getUserName().equals(username) && passwordEncoder.matches(password, user.get().getPassword())) {
-			return new ResponseEntity<>(user.get(),HttpStatus.OK);
+	public ResponseEntity<User> login(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("social") String social, @RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname, HttpServletRequest request, Model m, HttpSession session){
+		if(social == "") {
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//			String hashedPassword = passwordEncoder.encode(password);
+			Optional<User> user = userRepository.findAllByUserName(username);
+			System.out.println("Hellllllllooooooo");
+			System.out.println(session.getAttribute("user"));
+			if(user.get().getUserName().equals(username) && passwordEncoder.matches(password, user.get().getPassword())) {
+				return new ResponseEntity<>(user.get(),HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 		}
-		else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@CrossOrigin
