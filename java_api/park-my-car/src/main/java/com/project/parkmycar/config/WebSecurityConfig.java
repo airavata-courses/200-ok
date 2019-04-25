@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           .and()
       .formLogin()
       	.successHandler(successHandler)
-          .loginPage("/api/googlelogin")
+          .loginPage("/api/login")
           .permitAll()
           .and()
       .logout()
