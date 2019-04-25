@@ -20,12 +20,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
       http
       .authorizeRequests()
-          .antMatchers("/", "/api/users", "/api/register", "/api/googlelogin","/api/login", "/api/getAllGarages","/api/dashboard").permitAll()
+          .antMatchers("/", "/api/users", "/api/register", "/api/googlelogin",	"/api/login", "/api/getAllGarages","/api/dashboard").permitAll()
           .anyRequest().authenticated()
           .and()
       .formLogin()
       	.successHandler(successHandler)
-          .loginPage("/api/login")
+          .loginPage("/api/googlelogin")
           .permitAll()
           .and()
       .logout()
