@@ -30,6 +30,7 @@ import com.project.parkmycar.model.User;
 import com.project.parkmycar.repository.ParkingGarageRepository;
 import com.project.parkmycar.repository.UserRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class UserController {
