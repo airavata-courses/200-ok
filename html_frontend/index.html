@@ -175,7 +175,7 @@
 
             $('#location_dropdown').change(function(){
                 res={'parking_garage_id' : document.getElementById("location_dropdown").value}
-                $.ajax('http://149.165.171.50:30002/checkAvailability', {
+                $.ajax('http://149.165.170.90:30002/checkAvailability', {
                     type: 'post',
                     data: JSON.stringify(res),
                     dataType: 'json',
@@ -263,7 +263,7 @@
                 var form_valid = document.getElementById('form_valid');
                 if(validateReservingForm()){
                     res={'parking_garage_id' : document.getElementById("location_dropdown").value , 'username' : document.getElementById("parking_username").value , 'phoneno' : document.getElementById("phoneno").value }
-                    $.ajax('http://149.165.171.50:30002/reserveSpot', {
+                    $.ajax('http://149.165.170.90:30002/reserveSpot', {
                         type: 'post',
                         data: JSON.stringify(res),
                         dataType: 'json',
@@ -300,11 +300,17 @@
             return false;          
         }
 
+        // $(window).ready(function (){
+        //     if(sessionStorage.getItem("user") != null){
+        //         document.getElementsByClassName("w3-right w3-hide-small").innerHTML = '<a href="dashboard/dashboard.html" class="w3-bar-item w3-button"><i class="fa fa-user"></i> YOUR DASHBOARD </a>';
+        //     }
+        // });
+
         $(document).ready(function () {
 
             var dropdown = document.getElementById("location_dropdown");
             var locations = {};
-            var api_url = 'http://149.165.171.50:30008/api/getAllGarages';
+            var api_url = 'http://149.165.170.90:30008/api/getAllGarages';
             $.ajax({
                 type:'GET',
                 dataType:'json',
