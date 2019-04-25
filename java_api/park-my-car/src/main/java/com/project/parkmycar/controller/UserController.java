@@ -109,7 +109,7 @@ public class UserController {
 		return new ResponseEntity<>(user_list.get(), HttpStatus.OK);
 	}
 	
-	@CrossOrigin(origins = "http://js-169-93.jetstream-cloud.org")
+	@CrossOrigin
 	@RequestMapping("/googlelogin")
 	public ResponseEntity<User> googlelogin(@RequestParam("username") String username, @RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName, HttpServletRequest request, Model m, HttpSession session){
 		
