@@ -42,7 +42,10 @@
     
     <!-- Register/Login forms-->
     <div class="login-page">
+        
         <div class="form">
+                <div class="g-signin2" data-onsuccess="onSignIn" style="padding-left:25%;"></div>
+                <p style="color:#4CAF50"><b>OR</b></p>
             <form id="register-form" class="register-form">
                 <input id="firstname" type="text" placeholder="first name"/>
                 <span id="firstname_validation" class="error"></span>
@@ -65,7 +68,7 @@
                 <span id="login_form_validation" class="error"></span>
                 <p class="message">Not registered? <a href="#">Create an account</a></p>
 
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                
             </form>
             
         </div>
