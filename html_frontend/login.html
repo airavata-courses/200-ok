@@ -270,25 +270,25 @@
             var lastname = profile.getFamilyName();
 
 
-            var api_url = 'http://149.165.171.50:30008/api/googlelogin?username='+username+'&firstname='+firstname+'&lastname='+lastname;
-                $.ajax({
-                    type:'get',
-                    dataType:'json',
-                    url: api_url,
-                    success: function(user) {
-                        console.log(user);
-                        window.sessionStorage.setItem("user",user.userId);
-                        window.location.href = "dashboard/dashboard.html";
-                    },
-                    error: function (textStatus, errorThrown) {
-                        var login_form_validation = document.getElementById("login_form_validation");
-                        login_form_validation.innerHTML = "Login Error";
-                        login_form_validation.style.display = "block";
-                        login_form_validation.parentNode.style.backgroundColor = "#FFDFDF";
-                        console.log(textStatus);
-                        console.log(errorThrown);
-                    }
-                });
+            // var api_url = 'http://149.165.171.50:30008/api/googlelogin?username='+username+'&firstname='+firstname+'&lastname='+lastname;
+            //     $.ajax({
+            //         type:'get',
+            //         dataType:'json',
+            //         url: api_url,
+            //         success: function(user) {
+            //             console.log(user);
+            //             window.sessionStorage.setItem("user",user.userId);
+            //             window.location.href = "dashboard/dashboard.html";
+            //         },
+            //         error: function (textStatus, errorThrown) {
+            //             var login_form_validation = document.getElementById("login_form_validation");
+            //             login_form_validation.innerHTML = "Login Error";
+            //             login_form_validation.style.display = "block";
+            //             login_form_validation.parentNode.style.backgroundColor = "#FFDFDF";
+            //             console.log(textStatus);
+            //             console.log(errorThrown);
+            //         }
+            //     });
         }
     </script>
 </body>
