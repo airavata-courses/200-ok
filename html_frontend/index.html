@@ -325,7 +325,9 @@
                     garages.forEach(element => {
                         var opt = document.createElement("option");
                         opt.value= element.parkingGarageId;
-                            opt.innerHTML = element.address + ', '+element.city+','+element.pincode; // whatever property it has
+                            // opt.innerHTML = element.address + ', '+element.city+','+element.pincode; // whatever property it has
+                            // City and pincode have been changed to hidden as they are made obsolete thanks to geocode
+                            opt.innerHTML = element.address;
                             console.log(element);
                             console.log(opt);
                             // then append it to the select element
