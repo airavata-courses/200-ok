@@ -27,7 +27,7 @@ app.use(function(req, res, next) {
 function getConnection() {
   console.log('creating new connection');
   return mysql.createConnection({
-    host: '34.219.187.195',
+    host: '149.165.171.162',
     user: '200_ok',
     password: 'password200ok@123',
     database: '200_ok'
