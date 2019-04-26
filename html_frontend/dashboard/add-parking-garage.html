@@ -54,6 +54,18 @@
     <!-- Session Controller JS-->
     <script src="js/session_controller.js"></script>
 
+    <!-- Geocoding scripts -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtwctlbfq65Nd6n-6zAugl7JEi7cxRGQw&libraries=places"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <script type="text/javascript">
+        function initialize() {
+            var input = document.getElementById('address');
+            new google.maps.places.Autocomplete(input);
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <style>
@@ -160,15 +172,15 @@
                                                             <input type="text" id="address" name="address" placeholder="Enter street name" class="form-control" required="true">
                                                             <span id="address_validation" class="error"></span>
                                                         </div>
-                                                        <div class="form-group">
+                                                        <div class="form-group" hidden="true" >
                                                             <label for="city" class=" form-control-label">City</label>
-                                                            <input type="text" id="city" name="city" placeholder="Enter your city" class="form-control" required="true">
-                                                            <span id="city_validation" class="error"></span>
+                                                            <input type="text" id="city" name="city" placeholder="Enter your city" class="form-control" required="false">
+                                                            <span id="city_validation"></span>
                                                         </div> 
-                                                        <div class="form-group">
+                                                        <div class="form-group" hidden="true">
                                                             <label for="postal-code" class=" form-control-label">Postal Code</label>
-                                                            <input type="text" id="pincode" name="pincode" placeholder="Postal Code" class="form-control" required="true">
-                                                            <span id="pincode_validation" class="error"></span>
+                                                            <input type="text" id="pincode" name="pincode" placeholder="Postal Code" class="form-control" required="false">
+                                                            <span id="pincode_validation"></span>
                                                         </div>
 
                                                         <div class="form-group">
@@ -299,6 +311,8 @@
                             address_validation.parentNode.style.backgroundColor = "transparent";
                         }
 
+                        /**
+                         * City and pincode have been changed to hidden as they are made obsolete thanks to geocode
                         if (city.value === "") {
                             valid = 0;
                             city_validation.innerHTML = "Field Required";
@@ -329,6 +343,7 @@
                             pincode_validation.style.display = "none";
                             pincode_validation.parentNode.style.backgroundColor = "transparent";
                         }
+                        */
 
                         if (from_date.value === "") {
                             valid = 0;
