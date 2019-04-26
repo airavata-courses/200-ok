@@ -29,7 +29,7 @@ function getConnection() {
   return mysql.createConnection({
     host: '34.219.187.195',
     user: '200_ok',
-    password: 'password200ok@123',
+    password: 'new_password_200ok@123',
     database: '200_ok'
   })
 }

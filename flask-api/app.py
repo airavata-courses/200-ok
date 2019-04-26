@@ -16,7 +16,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 # MySQL configurations
 # Dummy commit by Jainendra to test jenkins build
 app.config['MYSQL_DATABASE_USER'] = '200_ok'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'password200ok@123'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'new_password_200ok@123'
 app.config['MYSQL_DATABASE_DB'] = '200_ok'
 app.config['MYSQL_DATABASE_HOST'] = '34.219.187.195'
 
