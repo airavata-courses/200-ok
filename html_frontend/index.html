@@ -308,6 +308,11 @@
 
         $(document).ready(function () {
 
+            if(sessionStorage.getItem("user") != null){
+                document.getElementsByClassName("w3-right w3-hide-small")[0].childNodes[1].href="dashboard/dashboard.html";
+                document.getElementsByClassName("w3-right w3-hide-small")[0].childNodes[1].childNodes[1].textContent = "YOUR DASHBOARD";
+            }
+            
             var dropdown = document.getElementById("location_dropdown");
             var locations = {};
             var api_url = 'http://149.165.170.90:30008/api/getAllGarages';
