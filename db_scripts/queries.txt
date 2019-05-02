@@ -1,2 +1,4 @@
 ALTER TABLE `200_ok`.`parking_spot_reserve_detail` 
 ADD COLUMN `date` VARCHAR(45) NOT NULL AFTER `phone_no`;
+alter table user_profile_access add column `userType` varchar(45);
+alter table parking_garage_detail add column num_of_spots int(11);

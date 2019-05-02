@@ -25,15 +25,16 @@ app.use(function(req, res, next) {
 
 // function to establish connection with the database, udpdate fields as required
 function getConnection() {
+  console.log('creating new connection');
   return mysql.createConnection({
     host: '34.219.187.195',
-    user: 'root',
-    password: 'password',
+    user: '200_ok',
+    password: 'new_password_200ok@123',
     database: '200_ok'
   })
 }
 
-// Get a uinque user ID. Now now we return a 22 digit id using package 
+// Get a uinque user ID. Now now we return a 22 digit id using package
 // 'short-unique-id' : https://www.npmjs.com/package/short-uuid
 // We can change this in future
 function getUniqueID() {
@@ -41,21 +42,19 @@ function getUniqueID() {
 }
 
 function addNewGarage(params) {
-  
+
 }
 
 function addNewParkingSpot(params) {
-  
+
 }
 
 // get all user Garages for the given user
 function getAllGarage(userId){
   const queryString = "Select * from parking_garage_detail where user_profile_id =?"
-
   var records = []
 
-
-  const connection = getConnection()
+  var connection = getConnection()
   connection.query(queryString,[userId],(err,rows,fiels) => {
 
     if (err) {
@@ -69,6 +68,7 @@ function getAllGarage(userId){
       }
     }
   })
+  connection.end();
   return records
 }
 
@@ -82,19 +82,19 @@ app.listen(3003,() => {
 // Root route
 app.get("/",(req,res) => {
     console.log("Responding to root route")
+
     res.send("Hello from ROOT")
 })
 
 // Get all garage for the user id
 app.get("/get_all_garage/:id",(req,res) => {
   console.log("Fetching garages for user with id: " + req.params.id)
-
   // To Do:
   // later use promises to do this in getAllGarage()
   const userId = req.params.id
   const queryString = "Select * from parking_garage_detail where user_profile_id =?"
   var records = []
-  const connection = getConnection()
+  var connection = getConnection()
   connection.query(queryString,[userId],(err,rows,fiels) => {
 
     if (err) {
@@ -113,6 +113,8 @@ app.get("/get_all_garage/:id",(req,res) => {
       res.json(records)
     }
   })
+  connection.end();
+  console.log("Ended Connection");
 })
 
 // Post Requests
@@ -121,7 +123,7 @@ app.get("/get_all_garage/:id",(req,res) => {
 app.post("/add_parking",(req,res) => {
     console.log(" Adding new parking: "+req.params)
 
-    // parse data from the post request 
+    // parse data from the post request
     const garageId = getUniqueID()
     const userId = req.body.user_profile_id
     const address = req.body.address
@@ -132,7 +134,7 @@ app.post("/add_parking",(req,res) => {
     const endDate = new Date(req.body.end_date)
     const avail = "Y"
     // insert into table
-    const connection = getConnection()
+    var connection = getConnection()
 
     // ToDo:
     // Use promises to move this to a function and use utility classes for CRUD
@@ -152,6 +154,7 @@ app.post("/add_parking",(req,res) => {
         if (err) {
           console.log("Failed to add parking garage: "+ err)
           res.sendStatus(500)
+          connection.end();
           return
         }
         else{
@@ -160,13 +163,13 @@ app.post("/add_parking",(req,res) => {
           // Don't keep the user waiting, while we add all the parking spots in the background
           console.log("Ending response")
           res.json({success : "Updated Successfully", status : 200});
-          
+
           // Add a parking spot for each day
           while (+currDate <= +endDate) {
             spotName = ""
             //availDate = "DATE("+currDate.toISOString()+")"
             availDate = currDate.toISOString().split('T')[0]
-
+            //var connection_new = getConnection();
             // Add different parking spots given by numSpots
             for (let i = 0; i < numSpots; i++) {
               spotName = "A"+(i+1)
@@ -181,11 +184,14 @@ app.post("/add_parking",(req,res) => {
                 else{
                   console.log("Inserted new parking spot with id: " + result.insertId );
                 }
-              })      
+                // connection_new.end();
+              })
             }
             currDate.setDate( currDate.getDate() + 1 )
           }
+          connection.end();
+          console.log("closing connection");
         }
-      })      
+      })
     console.log("Finished adding")
-})
+  })

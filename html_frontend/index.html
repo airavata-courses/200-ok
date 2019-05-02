@@ -62,6 +62,17 @@
         background-color: #f9f9f9;
     }
 
+    /* Always set the map height explicitly to define the size of the div
+    * element that contains the map. */
+    #map {
+    height: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    }
 </style>
 </head>
 <body class="w3-content w3-black" style="max-width:1500px;">
@@ -108,6 +119,49 @@
             </div>
         </div>
     </header>
+
+    <!-- Google Map integration -->
+    <div id="map"></div>
+    <script>
+        var map = null;
+        var geocoder = null;
+        function initMap() {
+            var lat = 39.194279, lng = -86.554771;
+            map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 12,
+              center: {lat: lat, lng: lng}
+            });
+            navigator.geolocation.getCurrentPosition(function(position) {
+  
+              // Get the coordinates of the current position.
+                lat = position.coords.latitude;
+                lng = position.coords.longitude;
+                console.log("Updated geolocation lat: "+lat+" lng: "+lng);
+                // move map to current location
+                map.panTo(new google.maps.LatLng(lat, lng));
+          });
+
+           geocoder = new google.maps.Geocoder();
+        }
+  
+        // function geocodeAddress(geocoder, resultsMap) {
+        //   var address = document.getElementById('address').value;
+        //   geocoder.geocode({'address': address}, function(results, status) {
+        //     if (status === 'OK') {
+        //       resultsMap.setCenter(results[0].geometry.location);
+        //       var marker = new google.maps.Marker({
+        //         map: resultsMap,
+        //         position: results[0].geometry.location
+        //       });
+        //     } else {
+        //       alert('Geocode was not successful for the following reason: ' + status);
+        //     }
+        //   });
+        // }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxyR06UgZQjH3v3sZElxus4bw5wzVDqGk&callback=initMap">
+    </script>
 
     <!-- The Modal -->
     <div id="myModal" class="modal" style="width:50%; position: absolute; top: 30%; left: 30%; margin-top: -5%; margin-left: -5%;">
@@ -175,7 +229,7 @@
 
             $('#location_dropdown').change(function(){
                 res={'parking_garage_id' : document.getElementById("location_dropdown").value}
-                $.ajax('http://149.165.171.36:3005/checkAvailability', {  
+                $.ajax('http://149.165.170.90:30002/checkAvailability', {
                     type: 'post',
                     data: JSON.stringify(res),
                     dataType: 'json',
@@ -263,7 +317,7 @@
                 var form_valid = document.getElementById('form_valid');
                 if(validateReservingForm()){
                     res={'parking_garage_id' : document.getElementById("location_dropdown").value , 'username' : document.getElementById("parking_username").value , 'phoneno' : document.getElementById("phoneno").value }
-                    $.ajax('http://149.165.171.36:3005/reserveSpot', {
+                    $.ajax('http://149.165.170.90:30002/reserveSpot', {
                         type: 'post',
                         data: JSON.stringify(res),
                         dataType: 'json',
@@ -300,20 +354,57 @@
             return false;          
         }
 
+        // $(window).ready(function (){
+        //     if(sessionStorage.getItem("user") != null){
+        //         document.getElementsByClassName("w3-right w3-hide-small").innerHTML = '<a href="dashboard/dashboard.html" class="w3-bar-item w3-button"><i class="fa fa-user"></i> YOUR DASHBOARD </a>';
+        //     }
+        // });
+
+        function geocodeAddress(geocoder, resultsMap, address) {
+        geocoder.geocode({'address': address}, function(results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+        }
         $(document).ready(function () {
+
+            if(sessionStorage.getItem("user") != null){
+                document.getElementsByClassName("w3-right w3-hide-small")[0].childNodes[1].href="dashboard/dashboard.html";
+                document.getElementsByClassName("w3-right w3-hide-small")[0].childNodes[1].childNodes[1].textContent = "YOUR DASHBOARD";
+            }
+            
             var dropdown = document.getElementById("location_dropdown");
             var locations = {};
-            var api_url = 'http://149.165.171.36:3005/getAllGarages';
-            $.ajax({ 
-                type:'POST',
+            var api_url = 'http://149.165.170.90:30008/api/getAllGarages';
+            $.ajax({
+                type:'GET',
                 dataType:'json',
                 url: api_url,
                 success: function(garages) {
                     console.log(garages);
+
+                    // create a new map
+                    // map = new google.maps.Map(document.getElementById('map'), {
+                    // zoom: 12,
+                    // center: {lat: 39.194279, lng: -86.554771}
+                    // });
+                    // var geocoder = new google.maps.Geocoder();
+
                     garages.forEach(element => {
                         var opt = document.createElement("option");
                         opt.value= element.parkingGarageId;
-                            opt.innerHTML = element.address + ', '+element.city+','+element.pincode; // whatever property it has
+                            // opt.innerHTML = element.address + ', '+element.city+','+element.pincode; // whatever property it has
+                            // City and pincode have been changed to hidden as they are made obsolete thanks to geocode
+                            opt.innerHTML = element.address;
+                            // Update to mark on the map                            
+                            geocodeAddress(geocoder, map,element.address);
                             console.log(element);
                             console.log(opt);
                             // then append it to the select element
